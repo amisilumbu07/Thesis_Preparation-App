@@ -1,0 +1,852 @@
+[
+ {
+  "id": "vaswani2017",
+  "cite": "Vaswani et al., Attention Is All You Need, NeurIPS 2017",
+  "file": "sources/vaswani2017.pdf",
+  "status": "in-project",
+  "thesisRef": "[1]",
+  "why": "Scaled dot-product attention, sqrt(d_k) scaling, positional encoding, O(L^2) cost",
+  "locators": [
+   {
+    "label": "Scaled dot-product attention",
+    "page": 1
+   },
+   {
+    "label": "Multi-head attention",
+    "page": 2
+   },
+   {
+    "label": "Positional encoding",
+    "page": 6
+   },
+   {
+    "label": "Table 1 (complexity per layer)",
+    "page": 6
+   }
+  ]
+ },
+ {
+  "id": "zhou2021informer",
+  "cite": "Zhou et al., Informer, AAAI 2021",
+  "file": "sources/zhou2021informer.pdf",
+  "status": "in-project",
+  "thesisRef": "[7]",
+  "why": "ProbSparse attention, self-attention distilling, generative decoder",
+  "locators": [
+   {
+    "label": "ProbSparse self-attention",
+    "page": 1
+   },
+   {
+    "label": "Self-attention distilling",
+    "page": 1
+   },
+   {
+    "label": "Generative style decoder",
+    "page": 2
+   }
+  ]
+ },
+ {
+  "id": "wu2021autoformer",
+  "cite": "Wu et al., Autoformer, NeurIPS 2021",
+  "file": "sources/wu2021autoformer.pdf",
+  "status": "in-project",
+  "thesisRef": "[8]",
+  "why": "Series decomposition, auto-correlation",
+  "locators": [
+   {
+    "label": "Series decomposition block",
+    "page": 3
+   },
+   {
+    "label": "Auto-correlation mechanism",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "zhou2022fedformer",
+  "cite": "Zhou et al., FEDformer, ICML 2022",
+  "file": "sources/zhou2022fedformer.pdf",
+  "status": "in-project",
+  "thesisRef": "[28]",
+  "why": "Frequency-domain attention (reviewed, not run)",
+  "locators": [
+   {
+    "label": "Frequency enhanced block",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "nie2023patchtst",
+  "cite": "Nie et al., A Time Series is Worth 64 Words (PatchTST), ICLR 2023",
+  "file": "sources/nie2023patchtst.pdf",
+  "status": "in-project",
+  "thesisRef": "[9]",
+  "why": "Patching, channel independence, ablations (Tables 7, 10, 11), seed variance (Table 14)",
+  "locators": [
+   {
+    "label": "Patching and channel independence",
+    "page": 1
+   },
+   {
+    "label": "Table 7 (patching / CI ablation)",
+    "page": 9
+   },
+   {
+    "label": "Table 10 (full ablation)",
+    "page": 17
+   },
+   {
+    "label": "Table 11 (instance normalization)",
+    "page": 18
+   },
+   {
+    "label": "Table 14 (seed variance)",
+    "page": 20
+   }
+  ]
+ },
+ {
+  "id": "zeng2023dlinear",
+  "cite": "Zeng et al., Are Transformers Effective for Time Series Forecasting?, AAAI 2023",
+  "file": "sources/zeng2023dlinear.pdf",
+  "status": "in-project",
+  "thesisRef": "[10]",
+  "why": "DLinear: the strongest skeptical counterpoint",
+  "locators": [
+   {
+    "label": "DLinear / LTSF-Linear",
+    "page": 4
+   }
+  ]
+ },
+ {
+  "id": "han2024ci",
+  "cite": "Han, Ye, Zhan, The Capacity and Robustness Trade-off: Revisiting the Channel Independent Strategy, IEEE TKDE 2024",
+  "file": "sources/han2024ci.pdf",
+  "status": "verify",
+  "thesisRef": "[11]",
+  "why": "Theory for why channel independence helps and what it costs",
+  "locators": [
+   {
+    "label": "Channel independent strategy",
+    "page": 1
+   },
+   {
+    "label": "Robustness",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "liu2024itransformer",
+  "cite": "Liu et al., iTransformer, ICLR 2024",
+  "file": "sources/liu2024itransformer.pdf",
+  "status": "verify",
+  "thesisRef": "[30]",
+  "why": "Inverts tokens to variables; counter-design to channel independence",
+  "locators": [
+   {
+    "label": "Inverted Transformer",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "micikevicius2018mixed",
+  "cite": "Micikevicius et al., Mixed Precision Training, ICLR 2018",
+  "file": "sources/micikevicius2018mixed.pdf",
+  "status": "verify",
+  "thesisRef": "[44]",
+  "why": "float16 range and loss scaling; cited in 4.4.3 for floating-point overflow",
+  "locators": [
+   {
+    "label": "Loss scaling",
+    "page": 4
+   },
+   {
+    "label": "FP16 range",
+    "page": 2
+   }
+  ]
+ },
+ {
+  "id": "liu2022nonstationary",
+  "cite": "Liu et al., Non-stationary Transformers, NeurIPS 2022",
+  "file": "sources/liu2022nonstationary.pdf",
+  "status": "verify",
+  "thesisRef": null,
+  "why": "Over-stationarization critique of instance normalization (not in thesis references)",
+  "locators": [
+   {
+    "label": "Over-stationarization",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "dehghani2023vit22b",
+  "cite": "Dehghani et al., Scaling Vision Transformers to 22B Parameters, ICML 2023",
+  "file": "sources/dehghani2023vit22b.pdf",
+  "status": "verify",
+  "thesisRef": null,
+  "why": "Attention-logit growth and query/key normalization (not in thesis references)",
+  "locators": [
+   {
+    "label": "Attention logit growth / QK normalization",
+    "page": 2
+   }
+  ]
+ },
+ {
+  "id": "wortsman2023instabilities",
+  "cite": "Wortsman et al., Small-scale Proxies for Large-scale Transformer Training Instabilities, 2023",
+  "file": "sources/wortsman2023instabilities.pdf",
+  "status": "verify",
+  "thesisRef": null,
+  "why": "Attention-logit growth as a cause of divergence (not in thesis references)",
+  "locators": [
+   {
+    "label": "Attention logit growth",
+    "page": 2
+   }
+  ]
+ },
+ {
+  "id": "cho2014gru",
+  "cite": "Cho et al., Learning Phrase Representations using RNN Encoder-Decoder (GRU), EMNLP 2014",
+  "file": "sources/cho2014gru.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[22]",
+  "why": "GRU reset and update gates",
+  "locators": [
+   {
+    "label": "Reset and update gates",
+    "page": 3
+   },
+   {
+    "label": "Update gate",
+    "page": 3
+   }
+  ]
+ },
+ {
+  "id": "pascanu2013difficulty",
+  "cite": "Pascanu, Mikolov, Bengio, On the difficulty of training recurrent neural networks, ICML 2013",
+  "file": "sources/pascanu2013difficulty.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[41]",
+  "why": "Vanishing and exploding gradients; gradient clipping",
+  "locators": [
+   {
+    "label": "Vanishing / exploding gradients",
+    "page": 1
+   },
+   {
+    "label": "Gradient clipping",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "bai2018tcn",
+  "cite": "Bai, Kolter, Koltun, An Empirical Evaluation of Generic Convolutional and Recurrent Networks (TCN), 2018",
+  "file": "sources/bai2018tcn.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[23]",
+  "why": "Temporal convolutional networks",
+  "locators": [
+   {
+    "label": "Dilated causal convolutions",
+    "page": 2
+   }
+  ]
+ },
+ {
+  "id": "lai2018lstnet",
+  "cite": "Lai et al., LSTNet, SIGIR 2018",
+  "file": "sources/lai2018lstnet.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[24]",
+  "why": "Hybrid convolution + recurrence",
+  "locators": [
+   {
+    "label": "LSTNet architecture",
+    "page": 2
+   }
+  ]
+ },
+ {
+  "id": "devlin2019bert",
+  "cite": "Devlin et al., BERT, NAACL 2019",
+  "file": "sources/devlin2019bert.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[25]",
+  "why": "Learned absolute position embeddings",
+  "locators": [
+   {
+    "label": "Position embeddings",
+    "page": 4
+   }
+  ]
+ },
+ {
+  "id": "gehring2017convs2s",
+  "cite": "Gehring et al., Convolutional Sequence to Sequence Learning, ICML 2017",
+  "file": "sources/gehring2017convs2s.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[26]",
+  "why": "Implicit position via convolution",
+  "locators": [
+   {
+    "label": "Position embeddings",
+    "page": 2
+   }
+  ]
+ },
+ {
+  "id": "shaw2018relpos",
+  "cite": "Shaw, Uszkoreit, Vaswani, Self-Attention with Relative Position Representations, NAACL 2018",
+  "file": "sources/shaw2018relpos.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[27]",
+  "why": "Relative positional embeddings",
+  "locators": [
+   {
+    "label": "Relative position representations",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "wang2024card",
+  "cite": "Wang et al., CARD, ICLR 2024",
+  "file": "sources/wang2024card.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[31]",
+  "why": "Channel-aligned attention",
+  "locators": [
+   {
+    "label": "Channel aligned attention",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "ilbert2024samformer",
+  "cite": "Ilbert et al., SAMformer, ICML 2024",
+  "file": "sources/ilbert2024samformer.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[32]",
+  "why": "Sharpness-aware minimization for Transformers",
+  "locators": [
+   {
+    "label": "Sharpness-aware minimization",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "chen2024pathformer",
+  "cite": "Chen et al., Pathformer, ICLR 2024",
+  "file": "sources/chen2024pathformer.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[33]",
+  "why": "Multi-scale adaptive patching",
+  "locators": [
+   {
+    "label": "Multi-scale patching",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "wen2023survey",
+  "cite": "Wen et al., Transformers in Time Series: A Survey, IJCAI 2023",
+  "file": "sources/wen2023survey.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[34]",
+  "why": "Taxonomy and context for Chapter 2",
+  "locators": [
+   {
+    "label": "Taxonomy",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "lheureux2022energies",
+  "cite": "L'Heureux, Grolinger, Capretz, Transformer-based model for electrical load forecasting, Energies 2022",
+  "file": "sources/lheureux2022energies.pdf",
+  "status": "in-project",
+  "thesisRef": "[3]",
+  "why": "Load-forecasting application context",
+  "locators": [
+   {
+    "label": "Transformer for load forecasting",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "kingma2015adam",
+  "cite": "Kingma and Ba, Adam, ICLR 2015",
+  "file": "sources/kingma2015adam.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[38]",
+  "why": "Optimiser used throughout",
+  "locators": [
+   {
+    "label": "Algorithm 1 (Adam)",
+    "page": 2
+   }
+  ]
+ },
+ {
+  "id": "hinton2015distill",
+  "cite": "Hinton, Vinyals, Dean, Distilling the Knowledge in a Neural Network, 2015",
+  "file": "sources/hinton2015distill.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[45]",
+  "why": "Future work: knowledge distillation",
+  "locators": [
+   {
+    "label": "Distillation",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "han2016compression",
+  "cite": "Han, Mao, Dally, Deep Compression, ICLR 2016",
+  "file": "sources/han2016compression.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[46]",
+  "why": "Future work: pruning",
+  "locators": [
+   {
+    "label": "Pruning",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "jacob2018quant",
+  "cite": "Jacob et al., Quantization and Training of Neural Networks, CVPR 2018",
+  "file": "sources/jacob2018quant.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[56]",
+  "why": "Future work: quantization",
+  "locators": [
+   {
+    "label": "Integer-arithmetic-only inference",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "mcmahan2017fedavg",
+  "cite": "McMahan et al., Communication-Efficient Learning of Deep Networks from Decentralized Data, AISTATS 2017",
+  "file": "sources/mcmahan2017fedavg.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[55]",
+  "why": "Future work: federated learning",
+  "locators": [
+   {
+    "label": "FederatedAveraging",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "xu2022anomaly",
+  "cite": "Xu et al., Anomaly Transformer, ICLR 2022",
+  "file": "sources/xu2022anomaly.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[54]",
+  "why": "Future work: anomaly detection",
+  "locators": [
+   {
+    "label": "Association discrepancy",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "li2018dcrnn",
+  "cite": "Li et al., DCRNN, ICLR 2018",
+  "file": "sources/li2018dcrnn.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[52]",
+  "why": "Future work: traffic forecasting",
+  "locators": [
+   {
+    "label": "Traffic forecasting",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "zhang2019deeplob",
+  "cite": "Zhang, Zohren, Roberts, DeepLOB, IEEE TSP 2019",
+  "file": "sources/zhang2019deeplob.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[53]",
+  "why": "Future work: financial forecasting",
+  "locators": [
+   {
+    "label": "Limit order books",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "serrano2019attention",
+  "cite": "Serrano and Smith, Is Attention Interpretable?, ACL 2019",
+  "file": "sources/serrano2019attention.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[57]",
+  "why": "Future work: attention interpretability",
+  "locators": [
+   {
+    "label": "Attention interpretability",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "lopezpaz2017gem",
+  "cite": "Lopez-Paz and Ranzato, Gradient Episodic Memory, NeurIPS 2017",
+  "file": "sources/lopezpaz2017gem.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[60]",
+  "why": "Future work: continual learning",
+  "locators": [
+   {
+    "label": "Continual learning",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "ribeiro2016lime",
+  "cite": "Ribeiro, Singh, Guestrin, Why Should I Trust You? (LIME), KDD 2016",
+  "file": "sources/ribeiro2016lime.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[62]",
+  "why": "Explanation methods",
+  "locators": [
+   {
+    "label": "LIME",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "ba2016layernorm",
+  "cite": "Ba, Kiros, Hinton, Layer Normalization, 2016",
+  "file": "sources/ba2016layernorm.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[47]",
+  "why": "Layer normalization in Transformer blocks",
+  "locators": [
+   {
+    "label": "Layer normalization",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "ioffe2015batchnorm",
+  "cite": "Ioffe and Szegedy, Batch Normalization, ICML 2015",
+  "file": "sources/ioffe2015batchnorm.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[48]",
+  "why": "Batch normalization",
+  "locators": [
+   {
+    "label": "Batch normalization",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "hendrycks2016gelu",
+  "cite": "Hendrycks and Gimpel, GELUs, 2016",
+  "file": "sources/hendrycks2016gelu.pdf",
+  "status": "in-thesis",
+  "thesisRef": "[49]",
+  "why": "GELU activation",
+  "locators": [
+   {
+    "label": "GELU",
+    "page": 1
+   }
+  ]
+ },
+ {
+  "id": "thesis",
+  "cite": "Final thesis (Amisi Lumbu Espoir, Hohai University, Sept 2026): original experiments",
+  "file": "sources/final-thesis.pdf",
+  "status": "thesis-original",
+  "thesisRef": null,
+  "why": "The thesis is the authority for every experiment, table and figure",
+  "locators": [
+   {
+    "label": "§1.1",
+    "page": 11
+   },
+   {
+    "label": "§1.1.1",
+    "page": 12
+   },
+   {
+    "label": "§1.2",
+    "page": 14
+   },
+   {
+    "label": "§1.3",
+    "page": 16
+   },
+   {
+    "label": "§1.4",
+    "page": 17
+   },
+   {
+    "label": "§1.5",
+    "page": 18
+   },
+   {
+    "label": "§1.6",
+    "page": 19
+   },
+   {
+    "label": "§2.2",
+    "page": 23
+   },
+   {
+    "label": "§2.2.1",
+    "page": 23
+   },
+   {
+    "label": "§2.2.2",
+    "page": 24
+   },
+   {
+    "label": "§2.2.3",
+    "page": 24
+   },
+   {
+    "label": "§2.2.4",
+    "page": 24
+   },
+   {
+    "label": "§2.3",
+    "page": 25
+   },
+   {
+    "label": "§2.3.1",
+    "page": 25
+   },
+   {
+    "label": "§2.3.2",
+    "page": 26
+   },
+   {
+    "label": "§2.4",
+    "page": 27
+   },
+   {
+    "label": "§2.4.1",
+    "page": 27
+   },
+   {
+    "label": "§2.4.2",
+    "page": 28
+   },
+   {
+    "label": "§2.4.3",
+    "page": 29
+   },
+   {
+    "label": "§2.4.4",
+    "page": 29
+   },
+   {
+    "label": "§2.4.5",
+    "page": 30
+   },
+   {
+    "label": "§2.4.6",
+    "page": 30
+   },
+   {
+    "label": "§2.5",
+    "page": 32
+   },
+   {
+    "label": "§3.1",
+    "page": 34
+   },
+   {
+    "label": "§3.2",
+    "page": 36
+   },
+   {
+    "label": "§3.2.1",
+    "page": 37
+   },
+   {
+    "label": "§3.2.2",
+    "page": 37
+   },
+   {
+    "label": "§3.2.3",
+    "page": 38
+   },
+   {
+    "label": "§3.2.4",
+    "page": 39
+   },
+   {
+    "label": "§3.3",
+    "page": 40
+   },
+   {
+    "label": "§3.4",
+    "page": 41
+   },
+   {
+    "label": "§3.4.1",
+    "page": 42
+   },
+   {
+    "label": "§3.4.2",
+    "page": 50
+   },
+   {
+    "label": "§3.5",
+    "page": 55
+   },
+   {
+    "label": "§3.5.1",
+    "page": 55
+   },
+   {
+    "label": "§3.5.2",
+    "page": 55
+   },
+   {
+    "label": "§3.5.3",
+    "page": 56
+   },
+   {
+    "label": "§3.6",
+    "page": 57
+   },
+   {
+    "label": "§3.6.1",
+    "page": 57
+   },
+   {
+    "label": "§3.6.2",
+    "page": 58
+   },
+   {
+    "label": "§3.7",
+    "page": 58
+   },
+   {
+    "label": "§3.8",
+    "page": 59
+   },
+   {
+    "label": "§4.1",
+    "page": 60
+   },
+   {
+    "label": "§4.2",
+    "page": 61
+   },
+   {
+    "label": "§4.2.1",
+    "page": 62
+   },
+   {
+    "label": "§4.2.2",
+    "page": 63
+   },
+   {
+    "label": "§4.3",
+    "page": 66
+   },
+   {
+    "label": "§4.4",
+    "page": 66
+   },
+   {
+    "label": "§4.4.1",
+    "page": 66
+   },
+   {
+    "label": "§4.4.2",
+    "page": 71
+   },
+   {
+    "label": "§4.4.3",
+    "page": 73
+   },
+   {
+    "label": "§4.5",
+    "page": 77
+   },
+   {
+    "label": "§4.6",
+    "page": 79
+   },
+   {
+    "label": "§4.6.1",
+    "page": 80
+   },
+   {
+    "label": "§4.6.2",
+    "page": 80
+   },
+   {
+    "label": "§4.6.3",
+    "page": 81
+   },
+   {
+    "label": "§5.1",
+    "page": 82
+   },
+   {
+    "label": "§5.2",
+    "page": 84
+   },
+   {
+    "label": "Table 3.1",
+    "page": 36
+   },
+   {
+    "label": "Table 4.1",
+    "page": 70
+   },
+   {
+    "label": "Table 4.2",
+    "page": 71
+   },
+   {
+    "label": "Table 4.3",
+    "page": 74
+   },
+   {
+    "label": "Table 4.4",
+    "page": 77
+   }
+  ]
+ }
+]

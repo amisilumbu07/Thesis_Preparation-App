@@ -1,0 +1,127 @@
+{
+  "_readme": "Author decisions that override conflicting or missing values in the thesis text. status: decided = author answered; derived = follows directly from the thesis's own tables, author confirmation pending; open = no answer yet (the app must show it as 'open', never guess). 'thesisFix' says what must change in the thesis text itself.",
+  "studyPlan": {
+    "status": "decided",
+    "start": "2026-09-27",
+    "end": "2026-10-10",
+    "days": 14,
+    "hoursPerDay": 3,
+    "totalHours": 42,
+    "goal": "Deep understanding of the whole thesis by the end date",
+    "defenseDate": null,
+    "defenseDateStatus": "open",
+    "note": "Author gave a study window, not a defense date. Scheduler counts back from the window end (2026-10-10) until a defense date is entered."
+  },
+  "decisions": [
+    {
+      "id": "D-patch-config",
+      "topic": "PatchTST patch length and stride actually run",
+      "status": "decided",
+      "value": {
+        "ETTh1": { "patch_len": 16, "stride": 8, "patches": 11 },
+        "London": { "patch_len": 16, "stride": 8, "patches": 11 },
+        "STEEL": { "patch_len": 12, "stride": 6, "patches": 15, "note": "deliberate override of the 16/8 default" },
+        "WTH": null
+      },
+      "wthStatus": "open",
+      "basis": "Author's code: benchmarks/compare_three_models_ett.py:85-86, compare_four_models_london.py:122-123, compare_four_models_steel.py:122-123; code default 16/8 (models/patchtst.py:180). All runs use seq_len=96, pred_len=24, label_len=48.",
+      "thesisSections": ["3.4.1", "4.2.1", "4.3"],
+      "thesisFix": "4.2.1 uses P16/S4 as an illustration only; label it as such. State the STEEL 12/6 override (15 patches). WTH setting not provided."
+    },
+    {
+      "id": "D-unsupported-numbers",
+      "topic": "68,000 s Autoformer training time and PatchTST MSE 18.38 (Section 3.4.1)",
+      "status": "decided",
+      "value": "delete",
+      "basis": "Author searched the repo (.py .md .json .csv .txt); neither value exists in any saved run. Longest runs: London Autoformer 10,695 s, Informer 11,119 s; best London MSE 20.19.",
+      "thesisSections": ["3.4.1"],
+      "thesisFix": "Delete both numbers from 3.4.1 unless a log outside the repo exists. Never taught in the app."
+    },
+    {
+      "id": "D-etth1-percentages",
+      "topic": "ETTh1 PatchTST improvement percentages",
+      "status": "decided",
+      "value": {
+        "vsInformer": { "MAE": "15.7%", "MSE": "33.8%", "RMSE": "18.6%" },
+        "vsAutoformer": { "MAE": "11.5%", "MSE": "15.9%", "RMSE": "8.3%" },
+        "vsMeanOfInformerAndAutoformer": { "MAE": "13.6%", "MSE": "25.9%", "RMSE": "13.8%" }
+      },
+      "basis": "Run three_models_comparison_ett_20260903_180948 (matches Table 4.2). The 13.6/25.9/13.8 figures in the thesis are gains over the mean of the other two models (recomputed and confirmed), not over Informer alone. Run three_models_comparison_20260903_165839 is the WTH run (its Informer MSE 0.4046 and PatchTST MSE 0.4871 are Table 4.1), not an ETT run.",
+      "thesisSections": ["4.4.2", "5.1"],
+      "thesisFix": "4.4.2 and 5.1 say 'over Informer' for 13.6/25.9/13.8. Either state the baseline (mean of Informer and Autoformer) or use 15.7/33.8/18.6 for Informer. Cite run 180948. Do not mix the sets."
+    },
+    {
+      "id": "D-informer-fastest",
+      "topic": "'Informer is the fastest Transformer on every dataset'",
+      "status": "derived",
+      "value": "True on WTH (1,100.9 s) and ETTh1 (525.6 s) only. On STEEL (PatchTST 173.7 s vs Informer 502.0 s, which diverged) and Smart Meters (PatchTST 3,905.5 s vs Informer 11,119.1 s) PatchTST is faster.",
+      "basis": "Thesis Tables 4.1-4.4. Author confirmation pending.",
+      "thesisSections": ["4.6.1", "4.6.3", "4.4.2"],
+      "thesisFix": "Restrict the claim to WTH and ETTh1, in the abstract and 4.4.2, 4.6.1, 4.6.3."
+    },
+    {
+      "id": "D-vram",
+      "topic": "VRAM measurements",
+      "status": "decided",
+      "value": "none measured",
+      "basis": "No code calls torch.cuda.max_memory_allocated or any memory logger. Repo docs list a Tesla V100 32 GB and per-model GB figures (Informer 6.2-7.8, PatchTST 3.8-4.9) and '80-90% / 4-8 GB' claims; none is backed by code or saved output, and the machine is an RTX 2060 Max-Q with 6 GB.",
+      "thesisSections": ["3.5.3", "3.6.2"],
+      "thesisFix": "Remove the claim that peak VRAM was recorded, or measure it and report peak allocated memory. The only VRAM figure the app teaches is the 6GB budget."
+    },
+    {
+      "id": "D-london-data",
+      "topic": "What the London Smart Meters data actually is",
+      "status": "decided",
+      "value": {
+        "granularity": "daily, one row per household (LCLid) per day; energy statistics (median, mean, max, std, min, sum) pre-aggregated from half-hourly readings",
+        "target": "energy_sum at household level",
+        "lookback": "96 days (not 96 half-hours)",
+        "horizon": "24 days",
+        "split": "by household, np.random.seed(42): 100 test households, then 20% of the remaining households for validation; households with fewer than 365 days dropped",
+        "rowCounts": { "train": "2.73M", "val": "0.68M", "test": "66k" },
+        "windowing": "households stacked into one long table; SlidingWindowDataset (utils/data_loader.py:62) has no per-household boundary, so some 96-day windows span two households",
+        "epochs": 3
+      },
+      "basis": "Author's code and data-loader.",
+      "thesisSections": ["3.2.4", "3.3", "4.1", "4.5", "5.2"],
+      "thesisFix": "Describe as 'daily, per-household records, split by household, concatenated for windowing'. Not aggregated across households. 3.2.4 and 4.1 say half-hourly; 3.3 says a chronological 70/20/10 split across all datasets. Add the window-crossing issue to the limitations."
+    },
+    {
+      "id": "D-seeds-runs",
+      "topic": "Seeds, number of runs, epochs",
+      "status": "decided",
+      "value": {
+        "runsPerResult": 1,
+        "seeds": "none set (only the London household split uses seed 42)",
+        "significanceTests": "none",
+        "epochs": { "ETTh1": "10 (Autoformer stopped at 9 by early stopping)", "STEEL": "10", "London": "3 (script comment: 'Reduced epochs for faster testing')" },
+        "steelInformerAutoformer": "diverged: NaN metrics and infinite validation loss; report as failed, not as results",
+        "mape": "London MAPE infinite for every model; not tabulated"
+      },
+      "basis": "Author's results folders; docs/EXPERIMENTAL_RESULTS_AND_DISCUSSION.md:1804 says 'Single Run... No multiple random seeds'. The same file's '54 experiments (3 datasets x 6 models x 3 runs)' and '~380 GPU hours' (line 2163) are unsupported and are not used.",
+      "thesisSections": ["3.5", "3.7", "4.4", "1.5"],
+      "thesisFix": "Add a caveat that each figure is a single run, so small gaps (e.g. Informer vs Autoformer on ETTh1) may fall within seed variance. Disclose the Autoformer ETTh1 early stop at epoch 9."
+    },
+    {
+      "id": "D-sources",
+      "topic": "Source shelf",
+      "status": "decided",
+      "value": "Taken from the thesis reference list. PDFs downloaded to sources/ (open-access arXiv and MDPI copies). Design-doc 'verify' status kept for the design doc's external set.",
+      "missingPdfs": [
+        { "id": "kim2022revin", "cite": "Kim et al., RevIN, ICLR 2022 (thesis ref [13])", "why": "OpenReview blocked the download (403)" },
+        { "id": "zhang2023crossformer", "cite": "Zhang and Yan, Crossformer, ICLR 2023 (thesis ref [29])", "why": "OpenReview blocked the download (403)" }
+      ],
+      "notInThesisReferences": ["liu2022nonstationary", "dehghani2023vit22b", "wortsman2023instabilities"],
+      "basis": "Author: 'refer to the thesis pdf bibliography'."
+    },
+    {
+      "id": "D-thesis-citations",
+      "topic": "In-text citation numbers that do not match the reference list",
+      "status": "open",
+      "value": null,
+      "basis": "Found while building the source shelf: [36] and [37] point to unrelated session-based-recommendation papers; [30] is cited for the Temporal Fusion Transformer but is iTransformer; [58,64], [59], [61], [62], [65] do not match their entries or do not exist (the list ends at [63]).",
+      "thesisSections": ["3.2.4", "3.3", "5.2"],
+      "thesisFix": "Correct the reference numbers. See reconciliation.md C20."
+    }
+  ]
+}

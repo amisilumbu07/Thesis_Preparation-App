@@ -1,0 +1,598 @@
+{
+ "items": [
+  {
+   "id": "LAB-attention-cost",
+   "cardId": "K-quadratic-cost-3",
+   "title": "Attention cost when the lookback doubles",
+   "setup": "Vanilla self-attention compares every position with every other. Compare a lookback of L = 96 with L = 192.",
+   "checks": [
+    {
+     "label": "Attention pairs at L = 96",
+     "expr": "Math.pow(96, 2)",
+     "answer": 9216.0,
+     "tol": 0.5,
+     "unit": ""
+    },
+    {
+     "label": "Attention pairs at L = 192",
+     "expr": "Math.pow(192, 2)",
+     "answer": 36864.0,
+     "tol": 0.5,
+     "unit": ""
+    },
+    {
+     "label": "Cost factor when L doubles",
+     "expr": "Math.pow(192, 2) / Math.pow(96, 2)",
+     "answer": 4.0,
+     "tol": 0.01,
+     "unit": "x"
+    }
+   ]
+  },
+  {
+   "id": "LAB-patch-96-16-8",
+   "cardId": "K-patch-arith-1",
+   "title": "Patches for L = 96, P = 16, S = 8",
+   "setup": "N = floor((L - P) / S) + 1 with no padding. Then compare the attention matrix over N patches with the one over L points.",
+   "checks": [
+    {
+     "label": "Number of patches N",
+     "expr": "Math.floor((96 - 16) / 8) + 1",
+     "answer": 11,
+     "tol": 0,
+     "unit": ""
+    },
+    {
+     "label": "Attention pairs over patches (N squared)",
+     "expr": "Math.pow(Math.floor((96 - 16) / 8) + 1, 2)",
+     "answer": 121.0,
+     "tol": 0,
+     "unit": ""
+    },
+    {
+     "label": "Shrink factor (L squared / N squared)",
+     "expr": "Math.pow(96, 2) / Math.pow(Math.floor((96 - 16) / 8) + 1, 2)",
+     "answer": 76.165289,
+     "tol": 0.6,
+     "unit": "x"
+    }
+   ]
+  },
+  {
+   "id": "LAB-patch-steel",
+   "cardId": "K-patch-arith-2",
+   "title": "STEEL patches: P = 12, S = 6",
+   "setup": "The STEEL runs used patch length 12 and stride 6 with L = 96 (author's code).",
+   "checks": [
+    {
+     "label": "Number of patches N",
+     "expr": "Math.floor((96 - 12) / 6) + 1",
+     "answer": 15,
+     "tol": 0,
+     "unit": ""
+    },
+    {
+     "label": "Attention pairs over patches",
+     "expr": "Math.pow(Math.floor((96 - 12) / 6) + 1, 2)",
+     "answer": 225.0,
+     "tol": 0,
+     "unit": ""
+    },
+    {
+     "label": "Shrink factor versus L = 96",
+     "expr": "Math.pow(96, 2) / Math.pow(Math.floor((96 - 12) / 6) + 1, 2)",
+     "answer": 40.96,
+     "tol": 0.6,
+     "unit": "x"
+    }
+   ]
+  },
+  {
+   "id": "LAB-patch-illustration",
+   "cardId": "K-patch-arith-3",
+   "title": "The P = 16, S = 4 illustration in 4.2.1",
+   "setup": "Section 4.2.1 illustrates patch length 16 with stride 4 at L = 96. The thesis elsewhere says about 11 patches.",
+   "checks": [
+    {
+     "label": "Patches with S = 4 (22 is accepted if you pad the end)",
+     "expr": "Math.floor((96 - 16) / 4) + 1",
+     "answer": 21,
+     "tol": 0,
+     "unit": "",
+     "alts": [
+      22
+     ]
+    },
+    {
+     "label": "Patches with S = 8, for comparison",
+     "expr": "Math.floor((96 - 16) / 8) + 1",
+     "answer": 11,
+     "tol": 0,
+     "unit": ""
+    }
+   ]
+  },
+  {
+   "id": "LAB-patch-336",
+   "cardId": "K-patch-arith-4",
+   "title": "Longer lookback: L = 336, P = 16, S = 8",
+   "setup": "Extend to a lookback of 336. Patching keeps attention over few tokens.",
+   "checks": [
+    {
+     "label": "Number of tokens N",
+     "expr": "Math.floor((336 - 16) / 8) + 1",
+     "answer": 41,
+     "tol": 0,
+     "unit": ""
+    },
+    {
+     "label": "Attention pairs over points (L squared)",
+     "expr": "Math.pow(336, 2)",
+     "answer": 112896.0,
+     "tol": 0.5,
+     "unit": ""
+    },
+    {
+     "label": "Attention pairs over patches (N squared)",
+     "expr": "Math.pow(Math.floor((336 - 16) / 8) + 1, 2)",
+     "answer": 1681.0,
+     "tol": 0,
+     "unit": ""
+    },
+    {
+     "label": "Shrink factor",
+     "expr": "Math.pow(336, 2) / Math.pow(Math.floor((336 - 16) / 8) + 1, 2)",
+     "answer": 67.160024,
+     "tol": 0.6,
+     "unit": "x"
+    }
+   ]
+  },
+  {
+   "id": "LAB-split-etth1",
+   "cardId": "K-split-leakage-3",
+   "title": "ETTh1 is a 70/20/10 split",
+   "setup": "ETTh1 gives 12,177 training, 3,479 validation and 1,740 test sequences.",
+   "checks": [
+    {
+     "label": "Total usable windows",
+     "expr": "12177 + 3479 + 1740",
+     "answer": 17396,
+     "tol": 0.5,
+     "unit": ""
+    },
+    {
+     "label": "70% of the total",
+     "expr": "0.7 * (12177 + 3479 + 1740)",
+     "answer": 12177.2,
+     "tol": 0.5,
+     "unit": ""
+    },
+    {
+     "label": "20% of the total",
+     "expr": "0.2 * (12177 + 3479 + 1740)",
+     "answer": 3479.2,
+     "tol": 0.5,
+     "unit": ""
+    },
+    {
+     "label": "10% of the total",
+     "expr": "0.1 * (12177 + 3479 + 1740)",
+     "answer": 1739.6,
+     "tol": 0.5,
+     "unit": ""
+    }
+   ]
+  },
+  {
+   "id": "LAB-window-span",
+   "cardId": "K-window-setup-2",
+   "title": "What lookback and horizon mean on hourly ETTh1",
+   "setup": "ETTh1 is hourly (24 data points per day). The lookback is 96 steps and the horizon 24 steps.",
+   "checks": [
+    {
+     "label": "Lookback in days",
+     "expr": "96 / 24",
+     "answer": 4.0,
+     "tol": 0.01,
+     "unit": "days"
+    },
+    {
+     "label": "Horizon in days",
+     "expr": "24 / 24",
+     "answer": 1.0,
+     "tol": 0.01,
+     "unit": "days"
+    }
+   ]
+  },
+  {
+   "id": "LAB-orders-of-magnitude",
+   "cardId": "K-datasets-4",
+   "title": "STEEL: how many orders of magnitude?",
+   "setup": "STEEL maxima: NSM 85,500 and CO2 0.07. Means: NSM 42,750 and CO2 0.01. Orders of magnitude = log10 of the ratio.",
+   "checks": [
+    {
+     "label": "Orders of magnitude, maxima",
+     "expr": "Math.log10(85500 / 0.07)",
+     "answer": 6.086868,
+     "tol": 0.05,
+     "unit": ""
+    },
+    {
+     "label": "Orders of magnitude, means",
+     "expr": "Math.log10(42750 / 0.01)",
+     "answer": 6.630936,
+     "tol": 0.05,
+     "unit": ""
+    }
+   ]
+  },
+  {
+   "id": "LAB-bilstm-double",
+   "cardId": "K-bilstm-2",
+   "title": "Is BiLSTM really double an LSTM?",
+   "setup": "STEEL: LSTM 8,632 parameters, 38.3 s; BiLSTM 18,185 parameters, 48.7 s. Smart Meters: LSTM 18,816 parameters, 1,279.4 s; BiLSTM 38,097 parameters, 1,592.2 s.",
+   "checks": [
+    {
+     "label": "Parameter ratio, STEEL",
+     "expr": "18185 / 8632",
+     "answer": 2.106696,
+     "tol": 0.02,
+     "unit": "x"
+    },
+    {
+     "label": "Parameter ratio, Smart Meters",
+     "expr": "38097 / 18816",
+     "answer": 2.024713,
+     "tol": 0.02,
+     "unit": "x"
+    },
+    {
+     "label": "Training-time ratio, STEEL",
+     "expr": "48.7 / 38.3",
+     "answer": 1.27154,
+     "tol": 0.02,
+     "unit": "x"
+    },
+    {
+     "label": "Training-time ratio, Smart Meters",
+     "expr": "1592.2 / 1279.4",
+     "answer": 1.24449,
+     "tol": 0.02,
+     "unit": "x"
+    }
+   ]
+  },
+  {
+   "id": "LAB-wth-patchtst-vs-informer",
+   "cardId": "K-wth-result-3",
+   "title": "WTH: PatchTST against Informer",
+   "setup": "Table 4.1. Informer: 2,901,542 parameters, MSE 0.4046, 1,100.9 s. PatchTST: 399,744 parameters, MSE 0.4871, 1,452.7 s.",
+   "checks": [
+    {
+     "label": "Informer parameters divided by PatchTST parameters",
+     "expr": "2901542 / 399744",
+     "answer": 7.2585,
+     "tol": 0.05,
+     "unit": "x"
+    },
+    {
+     "label": "PatchTST MSE above Informer",
+     "expr": "(0.4871 / 0.4046 - 1) * 100",
+     "answer": 20.390509,
+     "tol": 0.3,
+     "unit": "%"
+    },
+    {
+     "label": "PatchTST time divided by Informer time",
+     "expr": "1452.7 / 1100.9",
+     "answer": 1.319557,
+     "tol": 0.02,
+     "unit": "x"
+    }
+   ]
+  },
+  {
+   "id": "LAB-etth1-percentages",
+   "cardId": "K-etth1-result-3",
+   "title": "ETTh1: which baseline gives 13.6 / 25.9 / 13.8%?",
+   "setup": "Table 4.2. Informer: MAE 0.5560, MSE 0.5652, RMSE 0.7518. Autoformer: MAE 0.5299, MSE 0.4452, RMSE 0.6673. PatchTST: MAE 0.4689, MSE 0.3742, RMSE 0.6117. Improvement = (baseline - PatchTST) / baseline.",
+   "checks": [
+    {
+     "label": "MAE improvement over Informer",
+     "expr": "((0.5560) - (0.4689)) / (0.5560) * 100",
+     "answer": 15.665468,
+     "tol": 0.1,
+     "unit": "%"
+    },
+    {
+     "label": "MSE improvement over Informer",
+     "expr": "((0.5652) - (0.3742)) / (0.5652) * 100",
+     "answer": 33.793347,
+     "tol": 0.1,
+     "unit": "%"
+    },
+    {
+     "label": "RMSE improvement over Informer",
+     "expr": "((0.7518) - (0.6117)) / (0.7518) * 100",
+     "answer": 18.635275,
+     "tol": 0.1,
+     "unit": "%"
+    },
+    {
+     "label": "MAE improvement over the mean of Informer and Autoformer",
+     "expr": "(((0.5560 + 0.5299) / 2) - (0.4689)) / ((0.5560 + 0.5299) / 2) * 100",
+     "answer": 13.638457,
+     "tol": 0.1,
+     "unit": "%"
+    },
+    {
+     "label": "MSE improvement over the mean of Informer and Autoformer",
+     "expr": "(((0.5652 + 0.4452) / 2) - (0.3742)) / ((0.5652 + 0.4452) / 2) * 100",
+     "answer": 25.930325,
+     "tol": 0.1,
+     "unit": "%"
+    },
+    {
+     "label": "RMSE improvement over the mean of Informer and Autoformer",
+     "expr": "(((0.7518 + 0.6673) / 2) - (0.6117)) / ((0.7518 + 0.6673) / 2) * 100",
+     "answer": 13.790431,
+     "tol": 0.1,
+     "unit": "%"
+    }
+   ]
+  },
+  {
+   "id": "LAB-steel-size-ratios",
+   "cardId": "K-steel-not-capacity-2",
+   "title": "STEEL: how much larger are the failing Transformers?",
+   "setup": "Table 4.3 parameters. Informer 87,623; Autoformer 88,327; LSTM 8,632; BiLSTM 18,185; LSTM-16 4,456.",
+   "checks": [
+    {
+     "label": "Informer / BiLSTM (smallest ratio)",
+     "expr": "87623 / 18185",
+     "answer": 4.818422,
+     "tol": 0.05,
+     "unit": "x"
+    },
+    {
+     "label": "Informer / LSTM",
+     "expr": "87623 / 8632",
+     "answer": 10.15095,
+     "tol": 0.05,
+     "unit": "x"
+    },
+    {
+     "label": "Autoformer / LSTM-16 (largest ratio)",
+     "expr": "88327 / 4456",
+     "answer": 19.822038,
+     "tol": 0.05,
+     "unit": "x"
+    }
+   ]
+  },
+  {
+   "id": "LAB-sm-gains",
+   "cardId": "K-smart-meters-result-3",
+   "title": "Smart Meters: PatchTST versus the other six models",
+   "setup": "Table 4.4 (MAE / MSE / RMSE). LSTM 5.2733 / 81.4314 / 9.0239; BiLSTM 7.1175 / 98.8821 / 9.9439; GRU 5.2432 / 75.3838 / 8.6824; LSTM-16 8.5613 / 110.1040 / 10.4930; Informer 6.0268 / 99.1785 / 9.9588; Autoformer 4.2817 / 38.6661 / 6.2182. PatchTST 2.5819 / 20.1874 / 4.4930.",
+   "checks": [
+    {
+     "label": "Mean MAE of the other six",
+     "expr": "(5.2733 + 7.1175 + 5.2432 + 8.5613 + 6.0268 + 4.2817) / 6",
+     "answer": 6.083967,
+     "tol": 0.001,
+     "unit": ""
+    },
+    {
+     "label": "Mean MSE of the other six",
+     "expr": "(81.4314 + 98.8821 + 75.3838 + 110.1040 + 99.1785 + 38.6661) / 6",
+     "answer": 83.940983,
+     "tol": 0.01,
+     "unit": ""
+    },
+    {
+     "label": "Mean RMSE of the other six",
+     "expr": "(9.0239 + 9.9439 + 8.6824 + 10.4930 + 9.9588 + 6.2182) / 6",
+     "answer": 9.053367,
+     "tol": 0.001,
+     "unit": ""
+    },
+    {
+     "label": "MAE improvement of PatchTST",
+     "expr": "(((5.2733 + 7.1175 + 5.2432 + 8.5613 + 6.0268 + 4.2817) / 6) - (2.5819)) / ((5.2733 + 7.1175 + 5.2432 + 8.5613 + 6.0268 + 4.2817) / 6) * 100",
+     "answer": 57.562226,
+     "tol": 0.1,
+     "unit": "%"
+    },
+    {
+     "label": "MSE improvement of PatchTST",
+     "expr": "(((81.4314 + 98.8821 + 75.3838 + 110.1040 + 99.1785 + 38.6661) / 6) - (20.1874)) / ((81.4314 + 98.8821 + 75.3838 + 110.1040 + 99.1785 + 38.6661) / 6) * 100",
+     "answer": 75.950484,
+     "tol": 0.1,
+     "unit": "%"
+    },
+    {
+     "label": "RMSE improvement of PatchTST",
+     "expr": "(((9.0239 + 9.9439 + 8.6824 + 10.4930 + 9.9588 + 6.2182) / 6) - (4.4930)) / ((9.0239 + 9.9439 + 8.6824 + 10.4930 + 9.9588 + 6.2182) / 6) * 100",
+     "answer": 50.372053,
+     "tol": 0.1,
+     "unit": "%"
+    }
+   ]
+  },
+  {
+   "id": "LAB-sm-time",
+   "cardId": "K-smart-meters-result-4",
+   "title": "Smart Meters: PatchTST training time",
+   "setup": "Table 4.4 times in seconds. PatchTST 3,905.5; Informer 11,119.1; Autoformer 10,694.7; slowest recurrent BiLSTM 1,592.2; fastest recurrent LSTM-16 1,189.7.",
+   "checks": [
+    {
+     "label": "PatchTST time as a percentage of Informer",
+     "expr": "3905.5 / 11119.1 * 100",
+     "answer": 35.124246,
+     "tol": 0.3,
+     "unit": "%"
+    },
+    {
+     "label": "PatchTST time as a percentage of Autoformer",
+     "expr": "3905.5 / 10694.7 * 100",
+     "answer": 36.518088,
+     "tol": 0.3,
+     "unit": "%"
+    },
+    {
+     "label": "PatchTST time divided by the slowest recurrent time",
+     "expr": "3905.5 / 1592.2",
+     "answer": 2.452895,
+     "tol": 0.03,
+     "unit": "x"
+    },
+    {
+     "label": "PatchTST time divided by the fastest recurrent time",
+     "expr": "3905.5 / 1189.7",
+     "answer": 3.28276,
+     "tol": 0.03,
+     "unit": "x"
+    }
+   ]
+  }
+ ],
+ "tables": {
+  "WTH": {
+   "Informer": {
+    "params": 2901542.0,
+    "MAE": 0.4802,
+    "MSE": 0.4046,
+    "RMSE": 0.6361,
+    "time": 1100.9
+   },
+   "Autoformer": {
+    "params": 2729766.0,
+    "MAE": 0.5988,
+    "MSE": 0.6097,
+    "RMSE": 0.7808,
+    "time": 1252.3
+   },
+   "PatchTST": {
+    "params": 399744.0,
+    "MAE": 0.5084,
+    "MSE": 0.4871,
+    "RMSE": 0.6979,
+    "time": 1452.7
+   }
+  },
+  "ETTh1": {
+   "Informer": {
+    "params": 2892577.0,
+    "MAE": 0.556,
+    "MSE": 0.5652,
+    "RMSE": 0.7518,
+    "time": 525.6
+   },
+   "Autoformer": {
+    "params": 2716961.0,
+    "MAE": 0.5299,
+    "MSE": 0.4452,
+    "RMSE": 0.6673,
+    "time": 884.5
+   },
+   "PatchTST": {
+    "params": 399744.0,
+    "MAE": 0.4689,
+    "MSE": 0.3742,
+    "RMSE": 0.6117,
+    "time": 726.4
+   }
+  },
+  "Smart Meters": {
+   "LSTM": {
+    "params": 18816.0,
+    "MAE": 5.2733,
+    "MSE": 81.4314,
+    "RMSE": 9.0239,
+    "time": 1279.4
+   },
+   "BiLSTM": {
+    "params": 38097.0,
+    "MAE": 7.1175,
+    "MSE": 98.8821,
+    "RMSE": 9.9439,
+    "time": 1592.2
+   },
+   "GRU": {
+    "params": 16896.0,
+    "MAE": 5.2432,
+    "MSE": 75.3838,
+    "RMSE": 8.6824,
+    "time": 1283.3
+   },
+   "LSTM-16": {
+    "params": 13424.0,
+    "MAE": 8.5613,
+    "MSE": 110.104,
+    "RMSE": 10.493,
+    "time": 1189.7
+   },
+   "Informer": {
+    "params": 27610.0,
+    "MAE": 6.0268,
+    "MSE": 99.1785,
+    "RMSE": 9.9588,
+    "time": 11119.1
+   },
+   "Autoformer": {
+    "params": 29786.0,
+    "MAE": 4.2817,
+    "MSE": 38.6661,
+    "RMSE": 6.2182,
+    "time": 10694.7
+   },
+   "PatchTST": {
+    "params": 9120.0,
+    "MAE": 2.5819,
+    "MSE": 20.1874,
+    "RMSE": 4.493,
+    "time": 3905.5
+   }
+  },
+  "STEEL": {
+   "LSTM": {
+    "params": 8632.0,
+    "MAE": 0.0827,
+    "MSE": 0.0419,
+    "RMSE": 0.2047,
+    "time": 38.3
+   },
+   "BiLSTM": {
+    "params": 18185.0,
+    "MAE": 0.0746,
+    "MSE": 0.0358,
+    "RMSE": 0.1893,
+    "time": 48.7
+   },
+   "GRU": {
+    "params": 7320.0,
+    "MAE": 0.0709,
+    "MSE": 0.0384,
+    "RMSE": 0.196,
+    "time": 38.4
+   },
+   "LSTM-16": {
+    "params": 4456.0,
+    "MAE": 0.0718,
+    "MSE": 0.042,
+    "RMSE": 0.2049,
+    "time": 34.2
+   },
+   "PatchTST": {
+    "params": 34368.0,
+    "MAE": 0.0766,
+    "MSE": 0.01,
+    "RMSE": 0.1,
+    "time": 173.7
+   }
+  }
+ }
+}

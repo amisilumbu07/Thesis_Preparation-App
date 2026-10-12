@@ -1,0 +1,565 @@
+[
+ {
+  "id": "R-unsupported-numbers",
+  "title": "Numbers in 3.4.1 that no result supports (68,000 s, MSE 18.38)",
+  "severity": "high",
+  "status": "decided",
+  "conflict": [
+   "3.4.1: Autoformer had the longest training duration, 'exceeding 68,000 seconds'",
+   "3.4.1: PatchTST 'producing an MSE of 18.38'",
+   "Tables 4.1-4.4: longest Autoformer run 10,694.7 s; PatchTST MSE 0.4871 / 0.3742 / 0.0100 / 20.1874"
+  ],
+  "thesisAnchors": [
+   "3.4.1"
+  ],
+  "evidence": [
+   "exceeding 68,000 seconds",
+   "producing an MSE of 18.38"
+  ],
+  "decisionId": "D-unsupported-numbers",
+  "resolution": "Decided: delete both. No saved run contains either value (the author searched the repo); they date from an earlier draft. Use the tables: longest run 11,119.1 s (Informer, Smart Meters); PatchTST MSE 0.4871 / 0.3742 / 0.0100 / 20.1874.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-etth1-percentages",
+  "title": "ETTh1 improvement percentages (13.6 / 25.9 / 13.8 vs 15.7 / 33.8 / 18.6)",
+  "severity": "high",
+  "status": "decided",
+  "conflict": [
+   "4.4.2: 13.6% MAE, 25.9% MSE, 13.8% RMSE 'over Informer'",
+   "5.1: repeated as 13.6-25.9% better than Informer",
+   "Table 4.2: over Informer alone the gains are 15.7% / 33.8% / 18.6%"
+  ],
+  "thesisAnchors": [
+   "4.4.2",
+   "5.1"
+  ],
+  "evidence": [
+   "a 13.6% improvement in MAE and a 25.9% improvement in MSE over Informer",
+   "achieving the lowest MAE, MSE, and RMSE (13.6–25.9% better than Informer)"
+  ],
+  "decisionId": "D-etth1-percentages",
+  "resolution": "Decided: Table 4.2 stands. Over Informer: 15.7 / 33.8 / 18.6%. Over Autoformer: 11.5 / 15.9 / 8.3%. The thesis figures 13.6 / 25.9 / 13.8% are the gains over the mean of Informer and Autoformer. State the baseline or use the Informer figures; cite run three_models_comparison_ett_20260903_180948 (the run ending 165839 is the WTH run).",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-patch-config",
+  "title": "PatchTST patch length and stride",
+  "severity": "medium",
+  "status": "decided",
+  "conflict": [
+   "3.4.1: patch 16, stride 8",
+   "4.2.1: patch 16, stride 4",
+   "4.3: about 11 patches (fits stride 8)",
+   "Author's code: ETTh1 and London 16/8 (11 patches); STEEL 12/6 (15 patches); WTH not given"
+  ],
+  "thesisAnchors": [
+   "3.4.1",
+   "4.2.1"
+  ],
+  "evidence": [
+   "grouping 16 consecutive time steps into a single patch with a stride of 8",
+   "by grouping 16 time steps into a single patch with a stride of 4"
+  ],
+  "decisionId": "D-patch-config",
+  "resolution": "Decided: runs used 16/8 on ETTh1 and London and 12/6 on STEEL (a deliberate override, 15 patches). 16/4 in 4.2.1 is an illustration and must be labelled so. The thesis never states the STEEL override. The WTH setting is still open.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-vram",
+  "title": "VRAM: recorded, but never reported",
+  "severity": "high",
+  "status": "decided",
+  "conflict": [
+   "3.5.3 and 3.6.2: peak memory occupancy recorded for every run and a key metric",
+   "Chapter 4: no VRAM figure in any table",
+   "Author: no memory logging exists in the code; repo docs quoting a V100 32 GB and per-model GB figures are unsupported"
+  ],
+  "thesisAnchors": [
+   "3.5.3",
+   "3.6.2"
+  ],
+  "evidence": [
+   "peak memory occupancy were recorded alongside predictive accuracy for every run"
+  ],
+  "decisionId": "D-vram",
+  "resolution": "Decided: no VRAM was measured. Remove the claim that it was recorded (or measure peak allocated memory and report it). The only VRAM figure to teach is the 6GB budget. Statements such as \"least memory-intensive\" are qualitative.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-london-data",
+  "title": "London Smart Meters: half-hourly and chronological, or daily and by household?",
+  "severity": "high",
+  "status": "decided",
+  "conflict": [
+   "3.2.4 and 4.1: half-hourly readings, over 3.4 million",
+   "3.3: chronological 70/20/10 split across all datasets",
+   "Author's code: daily per-household records; split by household (100 test households); 2.73M / 0.68M / 66k rows; lookback 96 = 96 days; windows can span two households",
+   "5.2 speaks of aggregated versus individual household data"
+  ],
+  "thesisAnchors": [
+   "3.2.4",
+   "3.3",
+   "4.1"
+  ],
+  "evidence": [
+   "The dataset contains half-hourly electricity consumption readings for a sample of London households",
+   "over 3.4 million half-hourly residential readings prior to windowing",
+   "consistent across all four datasets"
+  ],
+  "decisionId": "D-london-data",
+  "resolution": "Decided: describe it as daily, per-household records, split by household and concatenated for windowing; not aggregated across households. Correct 3.2.4, 3.3 and 4.1, state lookback and horizon in days, and add the window-crossing limitation.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-single-run",
+  "title": "One run per result, no seeds, no significance test",
+  "severity": "medium",
+  "status": "decided",
+  "conflict": [
+   "Chapter 4 ranks models as if results were stable",
+   "Author: one run per model per dataset; no seeds set (only the London household split uses seed 42)",
+   "Repo docs claiming 54 experiments and ~380 GPU hours are unsupported"
+  ],
+  "thesisAnchors": [
+   "4.4.2",
+   "1.5"
+  ],
+  "evidence": [
+   "PatchTST emerges as the definitive winner across every accuracy metric evaluated"
+  ],
+  "decisionId": "D-seeds-runs",
+  "resolution": "Decided: add a caveat that every figure is a single run, so small gaps (Informer vs Autoformer on ETTh1) may lie within seed variance. Large margins (ETTh1 MSE 0.3742 vs 0.5652; Smart Meters 20.19 vs 38.67) are unlikely to be noise.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-informer-fastest",
+  "title": "\"Informer is fastest on every dataset\"",
+  "severity": "high",
+  "status": "open",
+  "conflict": [
+   "4.4.2, 4.6.1, 4.6.3 and the abstract: fastest Transformer on every dataset",
+   "Tables: true on WTH (1,100.9 s) and ETTh1 (525.6 s)",
+   "STEEL: PatchTST 173.7 s vs Informer 502.0 s; Smart Meters: PatchTST 3,905.5 s vs Informer 11,119.1 s"
+  ],
+  "thesisAnchors": [
+   "4.6.1",
+   "4.6.3"
+  ],
+  "evidence": [
+   "Informer is the fastest of the three Transformers to train on every dataset examined in this chapter",
+   "training fastest on every dataset examined"
+  ],
+  "decisionId": "D-informer-fastest",
+  "resolution": "Derived from the tables (author confirmation pending): restrict the claim to WTH and ETTh1. Also note PatchTST is slower than Autoformer on WTH (1,452.7 s vs 1,252.3 s), so \"PatchTST trains faster than Autoformer\" (3.4.1) fails there too.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-seven-models-each",
+  "title": "\"All seven models on each of the four datasets\"",
+  "severity": "medium",
+  "status": "open",
+  "conflict": [
+   "3.5.2 and 3.7: all seven models trained on each of the four datasets",
+   "3.7 and 5.2: WTH and ETTh1 are three-model runs; the recurrent comparison there is future work"
+  ],
+  "thesisAnchors": [
+   "3.5.2",
+   "3.7"
+  ],
+  "evidence": [
+   "all seven models were trained on each of the four datasets under a matched protocol",
+   "Four experimental runs are reported in this thesis"
+  ],
+  "decisionId": null,
+  "resolution": "Say plainly: three Transformers on WTH and ETTh1; all seven only on STEEL and Smart Meters. Fix 3.2.1, 3.5.2 and the \"seven architectures\" wording in 4.4.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-epochs",
+  "title": "Epoch counts: ten epochs, early stopping and the NaN runs",
+  "severity": "medium",
+  "status": "open",
+  "conflict": [
+   "3.5.2: early stopping with patience 7 halted the failed STEEL runs",
+   "4.4.3: NaN \"for all ten epochs attempted\"",
+   "Author: Autoformer on ETTh1 stopped at epoch 9; London capped at 3 epochs (script comment: 'reduced epochs for faster testing')"
+  ],
+  "thesisAnchors": [
+   "4.4.3",
+   "3.5.2"
+  ],
+  "evidence": [
+   "remaining so for all ten epochs attempted",
+   "with a patience of 5 epochs for the recurrent models and 7 epochs for the Transformer models"
+  ],
+  "decisionId": "D-seeds-runs",
+  "resolution": "Open: how many epochs the failed STEEL runs actually executed. Disclose that Autoformer on ETTh1 stopped at epoch 9 and that the London 3-epoch cap was for run time (thesis) versus faster testing (script comment); pick one honest wording.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-citations",
+  "title": "In-text citation numbers that do not match the reference list",
+  "severity": "medium",
+  "status": "open",
+  "conflict": [
+   "[36] (London data) and [37] (StandardScaler) point to session-based-recommendation papers",
+   "[30] cited for the Temporal Fusion Transformer is iTransformer",
+   "[58,64], [59], [61], [62], [65] do not match; the list ends at [63]"
+  ],
+  "thesisAnchors": [
+   "3.2.4",
+   "3.3",
+   "5.2"
+  ],
+  "evidence": [
+   "the Low Carbon London programme [36]",
+   "such as the Temporal Fusion Transformer [30]"
+  ],
+  "decisionId": "D-thesis-citations",
+  "resolution": "Open: fix the reference numbers. Add the Low Carbon London source and the TFT and scikit-learn references, and re-map the future-work citations.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-derived-ratios",
+  "title": "Ratio claims that do not reproduce from the tables",
+  "severity": "medium",
+  "status": "open",
+  "conflict": [
+   "3.4.2: LSTM-16 \"consistently the smallest of any model tested\"",
+   "4.4.3: failing Transformers \"two to ten times larger\"",
+   "4.6.3: recurrent models \"three to twenty-five times faster\""
+  ],
+  "thesisAnchors": [
+   "3.4.2",
+   "4.4.3",
+   "4.6.3"
+  ],
+  "evidence": [
+   "consistently the smallest of any model tested",
+   "only two to ten times larger than the successful recurrent models",
+   "training three to twenty-five times faster than any Transformer depending on dataset scale"
+  ],
+  "decisionId": null,
+  "resolution": "From the tables: LSTM-16 is not the smallest on Smart Meters (PatchTST 9,120 < 13,424); the size ratios are 4.8x to 19.8x; the speed ratios are about 3.6x to 19.4x. Replace each with the table-derived range.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-time-claims",
+  "title": "Smart Meters \"over three hours per model\" and \"55-70 minutes per epoch\"",
+  "severity": "low",
+  "status": "open",
+  "conflict": [
+   "3.7: Transformer training on Smart Meters required over three hours per model",
+   "4.5: each Transformer epoch took 55–70 minutes",
+   "Table 4.4: Informer 3.09 h, Autoformer 2.97 h, PatchTST 1.08 h (about 22 min per epoch)"
+  ],
+  "thesisAnchors": [
+   "3.7",
+   "4.5"
+  ],
+  "evidence": [
+   "required over three hours per model",
+   "each Transformer epoch took 55–70 minutes"
+  ],
+  "decisionId": null,
+  "resolution": "Restrict to Informer and Autoformer (about 60 minutes per epoch); PatchTST took about 22 minutes per epoch.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-rq1-baselines",
+  "title": "RQ1 names three recurrent baselines, the rest of the thesis four",
+  "severity": "low",
+  "status": "open",
+  "conflict": [
+   "1.3 RQ1: LSTM, BiLSTM, GRU",
+   "Everywhere else: four baselines including LSTM-16"
+  ],
+  "thesisAnchors": [
+   "1.3"
+  ],
+  "evidence": [
+   "recurrent baselines (LSTM, BiLSTM, GRU) in forecasting accuracy"
+  ],
+  "decisionId": null,
+  "resolution": "Add LSTM-16 to RQ1.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-window-count",
+  "title": "ETTh1 window count arithmetic",
+  "severity": "low",
+  "status": "open",
+  "conflict": [
+   "3.3: 17,420 samples give 17,396 usable windows",
+   "Usual count with lookback 96 and horizon 24 would be 17,301; 17,396 = 17,420 - 24"
+  ],
+  "thesisAnchors": [
+   "3.3"
+  ],
+  "evidence": [
+   "an exact 70/20/10 split of the dataset's 17,396 usable windows"
+  ],
+  "decisionId": null,
+  "resolution": "Have a one-line explanation ready: how the data loader counts windows (the lookback does not appear to be subtracted).",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-bilstm-time",
+  "title": "BiLSTM \"double the training time\"",
+  "severity": "low",
+  "status": "open",
+  "conflict": [
+   "3.4.2: approximately double the parameter count and training time",
+   "Tables 4.3 and 4.4: parameters about 2.1x and 2.0x; time only 1.27x and 1.24x"
+  ],
+  "thesisAnchors": [
+   "3.4.2"
+  ],
+  "evidence": [
+   "approximately double the parameter count and training time relative to a unidirectional LSTM"
+  ],
+  "decisionId": null,
+  "resolution": "Keep \"double the parameters\"; change the training-time claim to about 1.25x.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-epoch-times",
+  "title": "PatchTST \"converged in 180 s (WTH) and 156 s (ETTh1)\"",
+  "severity": "low",
+  "status": "open",
+  "conflict": [
+   "4.3: 180 s on WTH and 156 s on ETTh1",
+   "Tables 4.1 and 4.2: 1,452.7 s and 726.4 s"
+  ],
+  "thesisAnchors": [
+   "4.3"
+  ],
+  "evidence": [
+   "On WTH, PatchTST converged in 180 seconds during early calibration testing, and on ETTh1 in 156 seconds"
+  ],
+  "decisionId": null,
+  "resolution": "Open: identify the run behind 180 s / 156 s, or delete the sentence.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-editorial",
+  "title": "Editorial defects: duplicated paragraph and stale figure numbers",
+  "severity": "low",
+  "status": "open",
+  "conflict": [
+   "4.4.2 (PDF pp. 70-71): a paragraph is duplicated in the middle of a sentence",
+   "3.4.2 cites Figures 3.4 to 3.7 for the recurrent cells; the figures are 3.10 to 3.13"
+  ],
+  "thesisAnchors": [
+   "4.4.2",
+   "3.4.2"
+  ],
+  "evidence": [
+   "Figure 3.4 illustrates the basic recurrent computational unit"
+  ],
+  "decisionId": null,
+  "resolution": "Remove the duplicate and renumber the figure references.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-revin-claim",
+  "title": "RevIN called \"critical\", but PatchTST's own ablation shows a small effect",
+  "severity": "medium",
+  "status": "open",
+  "conflict": [
+   "4.2.2: RevIN is \"a critical component\"",
+   "PatchTST paper Table 11: instance normalisation improves results only slightly; PatchTST still outperforms without it",
+   "The thesis runs no RevIN ablation"
+  ],
+  "thesisAnchors": [
+   "4.2.2"
+  ],
+  "evidence": [
+   "a critical component designed to address the non-stationary nature of energy data"
+  ],
+  "decisionId": null,
+  "resolution": "Soften \"critical\" to \"helpful\" or add your own ablation. Cite PatchTST Table 11.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-rnn-recursive",
+  "title": "\"Recursive RNN\" contrast versus direct-projection RNNs",
+  "severity": "medium",
+  "status": "open",
+  "conflict": [
+   "4.2.2: PatchTST avoids the cascading error of recursive RNN decoding",
+   "3.4.2: LSTM-16 projects its final hidden state directly to the output horizon"
+  ],
+  "thesisAnchors": [
+   "4.2.2",
+   "3.4.2"
+  ],
+  "evidence": [
+   "Unlike the recursive, step-by-step prediction methods used in traditional RNNs",
+   "projected directly to the output horizon without additional intermediate layers"
+  ],
+  "decisionId": null,
+  "resolution": "Say the cascading-error argument applies to recursive decoding, not to your direct-projection baselines, and state how each RNN decodes.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-steel-two-runs",
+  "title": "PatchTST error on STEEL changes between the two runs",
+  "severity": "medium",
+  "status": "open",
+  "conflict": [
+   "4.4.3 first run: PatchTST MAE 0.3407, MSE 0.2985, RMSE 0.5464",
+   "Table 4.3 second run: PatchTST MAE 0.0766, MSE 0.0100, RMSE 0.1000 (34,368 parameters)",
+   "No explanation of the configuration change"
+  ],
+  "thesisAnchors": [
+   "4.4.3"
+  ],
+  "evidence": [
+   "achieving MAE 0.3407, MSE 0.2985, and RMSE 0.5464",
+   "PatchTST 34,368 0.0766 0.0100 0.1000 173.7 Success"
+  ],
+  "decisionId": null,
+  "resolution": "Open: explain what changed (capacity, patch 12/6, scaling) or drop the first-run numbers.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-mechanism-claim",
+  "title": "STEEL mechanism: \"isolates the property\" versus \"a hypothesis\"",
+  "severity": "medium",
+  "status": "open",
+  "conflict": [
+   "4.6.2 and 5.1: the evidence isolates the specific property",
+   "1.5: the mechanism is a hypothesis pending confirmatory ablations"
+  ],
+  "thesisAnchors": [
+   "4.6.2",
+   "1.5"
+  ],
+  "evidence": [
+   "The evidence instead isolates the specific property shared by the two failing architectures",
+   "pending confirmatory ablation experiments identified as future work"
+  ],
+  "decisionId": null,
+  "resolution": "Use \"best-supported hypothesis\" wherever the mechanism is stated as established.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-fixed-steel-outcome",
+  "title": "STEEL: failed or improved? (fixed)",
+  "severity": "high",
+  "status": "fixed",
+  "conflict": [
+   "Earlier draft: NaN in 4.4.3 but \"stability achieved\" and \"27.9% improvement\" elsewhere",
+   "Final: one consistent account, Informer and Autoformer diverge, PatchTST and RNNs train"
+  ],
+  "thesisAnchors": [
+   "4.4.3"
+  ],
+  "evidence": [
+   "Informer and Autoformer collapsed to NaN losses from epoch 1 and never recovered"
+  ],
+  "decisionId": null,
+  "resolution": "Fixed in the final thesis. The stabilised-rerun claim and the 27.9% figure are gone. Do not claim any recovery.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-fixed-split-text",
+  "title": "Data split wording (fixed for the text)",
+  "severity": "high",
+  "status": "fixed",
+  "conflict": [
+   "Earlier draft: 60/20/20 in some sections, 70/20/10 in others",
+   "Final: 70/20/10 throughout the text (but see R-london-data)"
+  ],
+  "thesisAnchors": [
+   "3.3"
+  ],
+  "evidence": [
+   "in a ratio of 70% / 20% / 10%"
+  ],
+  "decisionId": null,
+  "resolution": "Fixed in the text. The London split is a separate open contradiction (R-london-data).",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-fixed-normalization",
+  "title": "Normalisation description (fixed)",
+  "severity": "medium",
+  "status": "fixed",
+  "conflict": [
+   "Earlier draft: instance normalisation, global StandardScaler and RevIN described inconsistently",
+   "Final: StandardScaler on training data for all models; RevIN inside PatchTST"
+  ],
+  "thesisAnchors": [
+   "3.3",
+   "4.2.2"
+  ],
+  "evidence": [
+   "all continuous features were normalised using Z-score standardisation via scikit-learn's StandardScaler"
+  ],
+  "decisionId": null,
+  "resolution": "Fixed. Describe it as layered: StandardScaler (train-only) for all models plus RevIN inside PatchTST.",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-fixed-magnitude",
+  "title": "Orders of magnitude (fixed)",
+  "severity": "low",
+  "status": "fixed",
+  "conflict": [
+   "Earlier draft: 10^7 versus seven orders",
+   "Final: \"roughly six to seven orders of magnitude\" in 3.2.3 and 4.4.3"
+  ],
+  "thesisAnchors": [
+   "3.2.3"
+  ],
+  "evidence": [
+   "a span of roughly six to seven orders of magnitude"
+  ],
+  "decisionId": null,
+  "resolution": "Fixed. Use \"roughly six to seven orders of magnitude\".",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-fixed-scope",
+  "title": "Scope statements (fixed)",
+  "severity": "medium",
+  "status": "fixed",
+  "conflict": [
+   "Earlier draft: hybrid CNN-Transformers, FEDformer as compared, three versus four datasets, LCL-ECD",
+   "Final: FEDformer reviewed only; four datasets; hybrids are future work"
+  ],
+  "thesisAnchors": [
+   "2.4.4",
+   "3.2"
+  ],
+  "evidence": [
+   "it was not among the models empirically evaluated in this thesis",
+   "This study utilises four publicly available datasets"
+  ],
+  "decisionId": null,
+  "resolution": "Fixed in the text (but see R-seven-models-each).",
+  "rehearsedAnswer": ""
+ },
+ {
+  "id": "R-fixed-headline",
+  "title": "Accuracy headline and parameter ratio (fixed)",
+  "severity": "low",
+  "status": "fixed",
+  "conflict": [
+   "Earlier draft: about 26.6% / 25-28% / 27.9% accuracy figures and a 155-1,600x parameter ratio",
+   "Final: Smart Meters gains 57.6 / 76.0 / 50.4%, which reproduce from Table 4.4"
+  ],
+  "thesisAnchors": [
+   "4.5"
+  ],
+  "evidence": [
+   "improving on the average of the other six models by 57.6%, 76.0%, and 50.4%"
+  ],
+  "decisionId": null,
+  "resolution": "Fixed. The current headline figures reproduce; the ETTh1 percentages are covered by R-etth1-percentages.",
+  "rehearsedAnswer": ""
+ }
+]

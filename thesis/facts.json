@@ -1,0 +1,745 @@
+[
+ {
+  "id": "f001",
+  "category": "hardware",
+  "label": "GPU / laptop",
+  "value": "ASUS ROG Zephyrus G14 (GA401IV), NVIDIA GeForce RTX 2060 (Max-Q), 6GB VRAM",
+  "section": "3.1",
+  "sentence": "All experiments reported in this thesis were executed on a single ASUS ROG Zephyrus G14 (GA401IV) laptop equipped with an NVIDIA GeForce RTX 2060 (Max-Q, 6GB"
+ },
+ {
+  "id": "f002",
+  "category": "hardware",
+  "label": "VRAM budget",
+  "value": "6GB",
+  "section": "1.5",
+  "sentence": "All experiments are conducted on a single NVIDIA RTX 2060 GPU with 6GB of VRAM"
+ },
+ {
+  "id": "f003",
+  "category": "hardware",
+  "label": "Framework",
+  "value": "PyTorch",
+  "section": "3.7",
+  "sentence": "using PyTorch as the underlying deep learning framework"
+ },
+ {
+  "id": "f004",
+  "category": "dataset",
+  "label": "Dataset list",
+  "value": "WTH, ETTh1, STEEL, Smart Meters (London)",
+  "section": "3.2",
+  "sentence": "This study utilises four publicly available datasets"
+ },
+ {
+  "id": "f005",
+  "category": "dataset",
+  "label": "WTH size",
+  "value": "35,064 records, hourly, 12 variables",
+  "section": "3.2.1",
+  "sentence": "35,064 total entries across 12 variables"
+ },
+ {
+  "id": "f006",
+  "category": "dataset",
+  "label": "ETTh1 size",
+  "value": "17,420 hourly samples",
+  "section": "3.2.2",
+  "sentence": "This study uses ETTh1, containing 17,420 hourly samples in its canonical form"
+ },
+ {
+  "id": "f007",
+  "category": "dataset",
+  "label": "ETTh1 features",
+  "value": "7 native columns -> 33 engineered input features",
+  "section": "3.2.2",
+  "sentence": "this study's feature-engineering pipeline expands the native seven-column structure to 33 input features per timestep"
+ },
+ {
+  "id": "f008",
+  "category": "dataset",
+  "label": "STEEL size",
+  "value": "35,040 records, 15-minute, 11 variables (7 retained)",
+  "section": "3.2.3",
+  "sentence": "The dataset comprises 35,040 records at 15-minute resolution across 11 variables"
+ },
+ {
+  "id": "f009",
+  "category": "dataset",
+  "label": "STEEL retained variables",
+  "value": "7 continuous variables",
+  "section": "3.2.3",
+  "sentence": "of these, seven continuous variables were retained for modelling after feature selection"
+ },
+ {
+  "id": "f010",
+  "category": "dataset",
+  "label": "STEEL scale span",
+  "value": "roughly six to seven orders of magnitude",
+  "section": "3.2.3",
+  "sentence": "a span of roughly six to seven orders of magnitude across the seven variables retained after feature selection"
+ },
+ {
+  "id": "f011",
+  "category": "dataset",
+  "label": "STEEL Usage_kWh range",
+  "value": "0 to 157.18 kWh (mean 27.39, std 33.44)",
+  "section": "3.2.3",
+  "sentence": "energy usage ranges from 0 to 157.18 kWh (mean 27.39, std 33.44)"
+ },
+ {
+  "id": "f012",
+  "category": "dataset",
+  "label": "STEEL NSM range",
+  "value": "0 to 85,500 (mean 42,750, std 24,940.53)",
+  "section": "3.2.3",
+  "sentence": "the seconds-since-midnight (NSM) feature ranges from 0 to 85,500 (mean 42,750, std 24,940.53)"
+ },
+ {
+  "id": "f013",
+  "category": "dataset",
+  "label": "Smart Meters size",
+  "value": ">3.4 million half-hourly readings, 26 input features",
+  "section": "3.2.4",
+  "sentence": "At over 3.4 million raw readings prior to windowing"
+ },
+ {
+  "id": "f014",
+  "category": "dataset",
+  "label": "Smart Meters features",
+  "value": "26 input features",
+  "section": "3.2.4",
+  "sentence": "yielding 26 input features"
+ },
+ {
+  "id": "f015",
+  "category": "dataset",
+  "label": "Smart Meters period",
+  "value": "Nov 2011 - Feb 2014",
+  "section": "3.2.4",
+  "sentence": "collected between November 2011 and February 2014"
+ },
+ {
+  "id": "f016",
+  "category": "preprocessing",
+  "label": "Split",
+  "value": "70% / 20% / 10% chronological",
+  "section": "3.3",
+  "sentence": "in a ratio of 70% / 20% / 10%"
+ },
+ {
+  "id": "f017",
+  "category": "preprocessing",
+  "label": "ETTh1 window counts",
+  "value": "12,177 train / 3,479 val / 1,740 test (17,396 usable windows)",
+  "section": "3.3",
+  "sentence": "ETTh1 yields 12,177 training, 3,479 validation, and 1,740 test sequences, an exact 70/20/10 split of the dataset's 17,396 usable windows"
+ },
+ {
+  "id": "f018",
+  "category": "preprocessing",
+  "label": "Lookback / Label / Horizon",
+  "value": "96 / 48 / 24",
+  "section": "3.3",
+  "sentence": "using a Lookback of 96 timesteps, a Label length of 48 timesteps, and a prediction Horizon of 24 timesteps"
+ },
+ {
+  "id": "f019",
+  "category": "preprocessing",
+  "label": "Lags",
+  "value": "1, 6, 12, 24-hour",
+  "section": "3.3",
+  "sentence": "lagged values (at 1, 6, 12, and 24-hour intervals)"
+ },
+ {
+  "id": "f020",
+  "category": "preprocessing",
+  "label": "Rolling windows",
+  "value": "mean and std over 3-, 12-, 24-hour windows",
+  "section": "3.3",
+  "sentence": "rolling-window statistics (mean and standard deviation over 3-, 12-, and 24-hour windows)"
+ },
+ {
+  "id": "f021",
+  "category": "preprocessing",
+  "label": "Scaling",
+  "value": "Z-score StandardScaler, fitted on training partition only",
+  "section": "3.3",
+  "sentence": "computed on the training partition only"
+ },
+ {
+  "id": "f022",
+  "category": "preprocessing",
+  "label": "Missing values",
+  "value": "linear interpolation; <0.5% of data",
+  "section": "4.2",
+  "sentence": "missing values—constituting less than 0.5% of the total data—were handled via linear interpolation"
+ },
+ {
+  "id": "f023",
+  "category": "training",
+  "label": "Optimiser and learning rates",
+  "value": "Adam; 1e-4 Transformers, 1e-3 recurrent",
+  "section": "3.5.2",
+  "sentence": "learning rate of 1×10⁻⁴ for the three Transformer models and 1×10⁻³ for the four recurrent models"
+ },
+ {
+  "id": "f024",
+  "category": "training",
+  "label": "Early-stopping patience",
+  "value": "5 epochs recurrent, 7 epochs Transformer",
+  "section": "3.5.2",
+  "sentence": "with a patience of 5 epochs for the recurrent models and 7 epochs for the Transformer models"
+ },
+ {
+  "id": "f025",
+  "category": "training",
+  "label": "Batch size (recurrent)",
+  "value": "32",
+  "section": "3.5.2",
+  "sentence": "Batch size was set to 32 for all four recurrent models across every dataset"
+ },
+ {
+  "id": "f026",
+  "category": "training",
+  "label": "Batch size (Transformers)",
+  "value": "8 on WTH/ETTh1/STEEL; 16 on Smart Meters",
+  "section": "3.5.2",
+  "sentence": "a batch size of 8 was used for the Transformer models on WTH, ETTh1, and STEEL, while a batch size of 16 was used"
+ },
+ {
+  "id": "f027",
+  "category": "training",
+  "label": "Epoch budget",
+  "value": "10 epochs (after 5 vs 10 calibration on WTH)",
+  "section": "3.5.1",
+  "sentence": "This motivated the adoption of a 10-epoch training budget"
+ },
+ {
+  "id": "f028",
+  "category": "training",
+  "label": "Smart Meters epoch cap",
+  "value": "3 epochs",
+  "section": "4.5",
+  "sentence": "all seven models were capped at 3 completed epochs"
+ },
+ {
+  "id": "f029",
+  "category": "training",
+  "label": "Smart Meters Transformer epoch time",
+  "value": "55-70 minutes per epoch",
+  "section": "4.5",
+  "sentence": "each Transformer epoch took 55–70 minutes"
+ },
+ {
+  "id": "f030",
+  "category": "training",
+  "label": "LSTM-16 hidden size",
+  "value": "16 units",
+  "section": "3.4.2",
+  "sentence": "with a hidden dimension of 16 units"
+ },
+ {
+  "id": "f031",
+  "category": "training",
+  "label": "Recurrent hidden dims",
+  "value": "16-64 units",
+  "section": "3.5.3",
+  "sentence": "with hidden dimensions of 16–64 units sufficient in every case"
+ },
+ {
+  "id": "f032",
+  "category": "training",
+  "label": "PatchTST patch settings (3.4.1 example)",
+  "value": "patch 16, stride 8",
+  "section": "3.4.1",
+  "sentence": "grouping 16 consecutive time steps into a single patch with a stride of 8"
+ },
+ {
+  "id": "f033",
+  "category": "training",
+  "label": "PatchTST patch settings (4.2.1 example)",
+  "value": "patch 16, stride 4",
+  "section": "4.2.1",
+  "sentence": "by grouping 16 time steps into a single patch with a stride of 4"
+ },
+ {
+  "id": "f034",
+  "category": "training",
+  "label": "PatchTST effective patches",
+  "value": "approximately 11 patches from 96 timesteps",
+  "section": "4.3",
+  "sentence": "reducing the effective sequence length from 96 raw timesteps to approximately 11 patches"
+ },
+ {
+  "id": "f035",
+  "category": "training",
+  "label": "PatchTST calibration times",
+  "value": "180 s (WTH), 156 s (ETTh1)",
+  "section": "4.3",
+  "sentence": "On WTH, PatchTST converged in 180 seconds during early calibration testing, and on ETTh1 in 156 seconds"
+ },
+ {
+  "id": "f036",
+  "category": "training",
+  "label": "Informer params by dataset",
+  "value": "~2.90M (WTH, ETTh1); 87,623 (STEEL); 27,610 (Smart Meters)",
+  "section": "3.4.1",
+  "sentence": "ranging from approximately 2.90 million parameters on WTH and ETTh1 down to 87,623 parameters"
+ },
+ {
+  "id": "f037",
+  "category": "training",
+  "label": "Autoformer training time (3.4.1 claim)",
+  "value": "exceeding 68,000 seconds, longest of all models",
+  "section": "3.4.1",
+  "sentence": "exceeding 68,000 seconds"
+ },
+ {
+  "id": "f038",
+  "category": "training",
+  "label": "PatchTST MSE (3.4.1 claim)",
+  "value": "18.38",
+  "section": "3.4.1",
+  "sentence": "producing an MSE of 18.38"
+ },
+ {
+  "id": "f039",
+  "category": "training",
+  "label": "Smart Meters Transformer 3-epoch times",
+  "value": "Informer 11,119.1 s, Autoformer 10,694.7 s; recurrent 1,189.7-1,592.2 s",
+  "section": "3.5.3",
+  "sentence": "Informer and Autoformer required 11,119.1 and 10,694.7 seconds respectively to complete three epochs"
+ },
+ {
+  "id": "f040",
+  "category": "training",
+  "label": "Smart Meters run length (3.7 claim)",
+  "value": "Transformer training on Smart Meters required over three hours per model",
+  "section": "3.7",
+  "sentence": "required over three hours per model"
+ },
+ {
+  "id": "f041",
+  "category": "metrics",
+  "label": "Accuracy metrics",
+  "value": "MAE, MSE, RMSE (MAPE excluded on Smart Meters)",
+  "section": "3.6.1",
+  "sentence": "the following three metrics are computed"
+ },
+ {
+  "id": "f042",
+  "category": "metrics",
+  "label": "Operational metrics",
+  "value": "Training time, parameter count, GPU memory (VRAM)",
+  "section": "3.6.2",
+  "sentence": "Training Time: total wall-clock time in seconds"
+ },
+ {
+  "id": "f043",
+  "category": "metrics",
+  "label": "MAPE on Smart Meters",
+  "value": "infinite/undefined for every model (zeros in target)",
+  "section": "3.6.1",
+  "sentence": "MAPE returned an infinite or undefined value for every model tested"
+ },
+ {
+  "id": "f044",
+  "category": "results",
+  "label": "Table 4.1 WTH Informer",
+  "value": {
+   "params": "2,901,542",
+   "MAE": "0.4802",
+   "MSE": "0.4046",
+   "RMSE": "0.6361",
+   "train_s": "1,100.9"
+  },
+  "section": "4.4.1",
+  "sentence": "Informer 2,901,542 0.4802 0.4046 0.6361 1,100.9"
+ },
+ {
+  "id": "f045",
+  "category": "results",
+  "label": "Table 4.1 WTH Autoformer",
+  "value": {
+   "params": "2,729,766",
+   "MAE": "0.5988",
+   "MSE": "0.6097",
+   "RMSE": "0.7808",
+   "train_s": "1,252.3"
+  },
+  "section": "4.4.1",
+  "sentence": "Autoformer 2,729,766 0.5988 0.6097 0.7808 1,252.3"
+ },
+ {
+  "id": "f046",
+  "category": "results",
+  "label": "Table 4.1 WTH PatchTST",
+  "value": {
+   "params": "399,744",
+   "MAE": "0.5084",
+   "MSE": "0.4871",
+   "RMSE": "0.6979",
+   "train_s": "1,452.7"
+  },
+  "section": "4.4.1",
+  "sentence": "PatchTST 399,744 0.5084 0.4871 0.6979 1,452.7"
+ },
+ {
+  "id": "f047",
+  "category": "results",
+  "label": "Table 4.2 ETTh1 Informer",
+  "value": {
+   "params": "2,892,577",
+   "MAE": "0.5560",
+   "MSE": "0.5652",
+   "RMSE": "0.7518",
+   "train_s": "525.6"
+  },
+  "section": "4.4.2",
+  "sentence": "Informer 2,892,577 0.5560 0.5652 0.7518 525.6"
+ },
+ {
+  "id": "f048",
+  "category": "results",
+  "label": "Table 4.2 ETTh1 Autoformer",
+  "value": {
+   "params": "2,716,961",
+   "MAE": "0.5299",
+   "MSE": "0.4452",
+   "RMSE": "0.6673",
+   "train_s": "884.5"
+  },
+  "section": "4.4.2",
+  "sentence": "Autoformer 2,716,961 0.5299 0.4452 0.6673 884.5"
+ },
+ {
+  "id": "f049",
+  "category": "results",
+  "label": "Table 4.2 ETTh1 PatchTST",
+  "value": {
+   "params": "399,744",
+   "MAE": "0.4689",
+   "MSE": "0.3742",
+   "RMSE": "0.6117",
+   "train_s": "726.4"
+  },
+  "section": "4.4.2",
+  "sentence": "PatchTST 399,744 0.4689 0.3742 0.6117 726.4"
+ },
+ {
+  "id": "f050",
+  "category": "results",
+  "label": "Table 4.4 Smart Meters LSTM",
+  "value": {
+   "params": "18,816",
+   "MAE": "5.2733",
+   "MSE": "81.4314",
+   "RMSE": "9.0239",
+   "train_s": "1,279.4"
+  },
+  "section": "4.5",
+  "sentence": "LSTM 18,816 5.2733 81.4314 9.0239 1,279.4"
+ },
+ {
+  "id": "f051",
+  "category": "results",
+  "label": "Table 4.4 Smart Meters BiLSTM",
+  "value": {
+   "params": "38,097",
+   "MAE": "7.1175",
+   "MSE": "98.8821",
+   "RMSE": "9.9439",
+   "train_s": "1,592.2"
+  },
+  "section": "4.5",
+  "sentence": "BiLSTM 38,097 7.1175 98.8821 9.9439 1,592.2"
+ },
+ {
+  "id": "f052",
+  "category": "results",
+  "label": "Table 4.4 Smart Meters GRU",
+  "value": {
+   "params": "16,896",
+   "MAE": "5.2432",
+   "MSE": "75.3838",
+   "RMSE": "8.6824",
+   "train_s": "1,283.3"
+  },
+  "section": "4.5",
+  "sentence": "GRU 16,896 5.2432 75.3838 8.6824 1,283.3"
+ },
+ {
+  "id": "f053",
+  "category": "results",
+  "label": "Table 4.4 Smart Meters LSTM-16",
+  "value": {
+   "params": "13,424",
+   "MAE": "8.5613",
+   "MSE": "110.1040",
+   "RMSE": "10.4930",
+   "train_s": "1,189.7"
+  },
+  "section": "4.5",
+  "sentence": "LSTM-16 13,424 8.5613 110.1040 10.4930 1,189.7"
+ },
+ {
+  "id": "f054",
+  "category": "results",
+  "label": "Table 4.4 Smart Meters Informer",
+  "value": {
+   "params": "27,610",
+   "MAE": "6.0268",
+   "MSE": "99.1785",
+   "RMSE": "9.9588",
+   "train_s": "11,119.1"
+  },
+  "section": "4.5",
+  "sentence": "Informer 27,610 6.0268 99.1785 9.9588 11,119.1"
+ },
+ {
+  "id": "f055",
+  "category": "results",
+  "label": "Table 4.4 Smart Meters Autoformer",
+  "value": {
+   "params": "29,786",
+   "MAE": "4.2817",
+   "MSE": "38.6661",
+   "RMSE": "6.2182",
+   "train_s": "10,694.7"
+  },
+  "section": "4.5",
+  "sentence": "Autoformer 29,786 4.2817 38.6661 6.2182 10,694.7"
+ },
+ {
+  "id": "f056",
+  "category": "results",
+  "label": "Table 4.4 Smart Meters PatchTST",
+  "value": {
+   "params": "9,120",
+   "MAE": "2.5819",
+   "MSE": "20.1874",
+   "RMSE": "4.4930",
+   "train_s": "3,905.5"
+  },
+  "section": "4.5",
+  "sentence": "PatchTST 9,120 2.5819 20.1874 4.4930 3,905.5"
+ },
+ {
+  "id": "f057",
+  "category": "results",
+  "label": "Table 4.3 STEEL LSTM",
+  "value": {
+   "params": "8,632",
+   "MAE": "0.0827",
+   "MSE": "0.0419",
+   "RMSE": "0.2047",
+   "train_s": "38.3",
+   "outcome": "Success"
+  },
+  "section": "4.4.3",
+  "sentence": "LSTM 8,632 0.0827 0.0419 0.2047 38.3 Success"
+ },
+ {
+  "id": "f058",
+  "category": "results",
+  "label": "Table 4.3 STEEL BiLSTM",
+  "value": {
+   "params": "18,185",
+   "MAE": "0.0746",
+   "MSE": "0.0358",
+   "RMSE": "0.1893",
+   "train_s": "48.7",
+   "outcome": "Success"
+  },
+  "section": "4.4.3",
+  "sentence": "BiLSTM 18,185 0.0746 0.0358 0.1893 48.7 Success"
+ },
+ {
+  "id": "f059",
+  "category": "results",
+  "label": "Table 4.3 STEEL GRU",
+  "value": {
+   "params": "7,320",
+   "MAE": "0.0709",
+   "MSE": "0.0384",
+   "RMSE": "0.1960",
+   "train_s": "38.4",
+   "outcome": "Success"
+  },
+  "section": "4.4.3",
+  "sentence": "GRU 7,320 0.0709 0.0384 0.1960 38.4 Success"
+ },
+ {
+  "id": "f060",
+  "category": "results",
+  "label": "Table 4.3 STEEL LSTM-16",
+  "value": {
+   "params": "4,456",
+   "MAE": "0.0718",
+   "MSE": "0.0420",
+   "RMSE": "0.2049",
+   "train_s": "34.2",
+   "outcome": "Success"
+  },
+  "section": "4.4.3",
+  "sentence": "LSTM-16 4,456 0.0718 0.0420 0.2049 34.2 Success"
+ },
+ {
+  "id": "f061",
+  "category": "results",
+  "label": "Table 4.3 STEEL Informer",
+  "value": {
+   "params": "87,623",
+   "MAE": "NaN",
+   "MSE": "NaN",
+   "RMSE": "NaN",
+   "train_s": "502.0",
+   "outcome": "Failed (ep. 1)"
+  },
+  "section": "4.4.3",
+  "sentence": "Informer 87,623 NaN NaN NaN 502.0 Failed (ep. 1)"
+ },
+ {
+  "id": "f062",
+  "category": "results",
+  "label": "Table 4.3 STEEL Autoformer",
+  "value": {
+   "params": "88,327",
+   "MAE": "NaN",
+   "MSE": "NaN",
+   "RMSE": "NaN",
+   "train_s": "662.7",
+   "outcome": "Failed (ep. 1)"
+  },
+  "section": "4.4.3",
+  "sentence": "Autoformer 88,327 NaN NaN NaN 662.7 Failed (ep. 1)"
+ },
+ {
+  "id": "f063",
+  "category": "results",
+  "label": "Table 4.3 STEEL PatchTST",
+  "value": {
+   "params": "34,368",
+   "MAE": "0.0766",
+   "MSE": "0.0100",
+   "RMSE": "0.1000",
+   "train_s": "173.7",
+   "outcome": "Success"
+  },
+  "section": "4.4.3",
+  "sentence": "PatchTST 34,368 0.0766 0.0100 0.1000 173.7 Success"
+ },
+ {
+  "id": "f064",
+  "category": "results",
+  "label": "STEEL first run PatchTST",
+  "value": "MAE 0.3407, MSE 0.2985, RMSE 0.5464",
+  "section": "4.4.3",
+  "sentence": "achieving MAE 0.3407, MSE 0.2985, and RMSE 0.5464"
+ },
+ {
+  "id": "f065",
+  "category": "results",
+  "label": "STEEL comparison capacity range",
+  "value": "4,456 to 88,327 parameters",
+  "section": "4.4.3",
+  "sentence": "at comparably small capacity (4,456 to 88,327 parameters)"
+ },
+ {
+  "id": "f066",
+  "category": "results",
+  "label": "STEEL failure epoch",
+  "value": "NaN from epoch 1, all ten epochs attempted",
+  "section": "4.4.3",
+  "sentence": "remaining so for all ten epochs attempted"
+ },
+ {
+  "id": "f067",
+  "category": "results",
+  "label": "WTH 5-epoch calibration",
+  "value": "Informer MAE 0.51 / RMSE 0.69; Autoformer MAE 0.56 / RMSE 0.74",
+  "section": "4.4.1",
+  "sentence": "Informer achieved an MAE of 0.51 and RMSE of 0.69, appearing statistically superior to Autoformer's MAE of 0.56 and RMSE of 0.74"
+ },
+ {
+  "id": "f068",
+  "category": "results",
+  "label": "ETTh1 PatchTST gains over Informer",
+  "value": "13.6% MAE, 25.9% MSE, 13.8% RMSE",
+  "section": "4.4.2",
+  "sentence": "a 13.6% improvement in MAE and a 25.9% improvement in MSE over Informer, and a 13.8% improvement in RMSE"
+ },
+ {
+  "id": "f069",
+  "category": "results",
+  "label": "Smart Meters PatchTST gain vs mean of other six",
+  "value": "MAE 57.6%, MSE 76.0%, RMSE 50.4%",
+  "section": "4.5",
+  "sentence": "improving on the average of the other six models by 57.6%, 76.0%, and 50.4%"
+ },
+ {
+  "id": "f070",
+  "category": "results",
+  "label": "Smart Meters PatchTST vs Transformer time",
+  "value": "3,905.5 s vs 10,694.7-11,119.1 s (about a third)",
+  "section": "4.5",
+  "sentence": "trained in roughly a third of the time of Informer or Autoformer (3,905.5s vs. 10,694.7–11,119.1s)"
+ },
+ {
+  "id": "f071",
+  "category": "results",
+  "label": "Recurrent speed vs PatchTST (Smart Meters)",
+  "value": "two to three times slower than any recurrent model",
+  "section": "4.5",
+  "sentence": "it remained two to three times slower than any recurrent model"
+ },
+ {
+  "id": "f072",
+  "category": "results",
+  "label": "Recurrent vs Transformer speed factor",
+  "value": "three to twenty-five times faster",
+  "section": "4.6.3",
+  "sentence": "training three to twenty-five times faster than any Transformer depending on dataset scale"
+ },
+ {
+  "id": "f073",
+  "category": "results",
+  "label": "Informer speed claim",
+  "value": "fastest of three Transformers on every dataset examined",
+  "section": "4.6.1",
+  "sentence": "Informer is the fastest of the three Transformers to train on every dataset examined in this chapter"
+ },
+ {
+  "id": "f074",
+  "category": "results",
+  "label": "External validation",
+  "value": "within approximately 2% of the published Informer figure",
+  "section": "5.1",
+  "sentence": "found this study's result within approximately 2% of the published figure"
+ },
+ {
+  "id": "f075",
+  "category": "models",
+  "label": "Model list",
+  "value": "Informer, Autoformer, PatchTST (Transformers); LSTM, BiLSTM, GRU, LSTM-16 (recurrent)",
+  "section": "1.5",
+  "sentence": "three Transformer-based models (Informer, Autoformer, PatchTST) against four recurrent baselines (LSTM, BiLSTM, GRU, and a minimal single-layer LSTM configuration)"
+ },
+ {
+  "id": "f076",
+  "category": "models",
+  "label": "Complexity",
+  "value": "Informer ProbSparse O(L log L); Autoformer auto-correlation O(L log L)",
+  "section": "3.4.1",
+  "sentence": "reduces the computational burden to O(L log L)[7]"
+ },
+ {
+  "id": "f077",
+  "category": "models",
+  "label": "Experimental runs",
+  "value": "3-model on WTH and ETTh1; 7-model on STEEL and Smart Meters",
+  "section": "3.7",
+  "sentence": "Four experimental runs are reported in this thesis"
+ }
+]

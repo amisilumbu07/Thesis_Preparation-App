@@ -1,0 +1,828 @@
+[
+ {
+  "id": "C-attention-qkv",
+  "pillar": "A",
+  "title": "Scaled dot-product attention",
+  "story": "Every Transformer block is built on one operation. Queries are compared with keys to produce weights, and the weights are applied to the values. The dot product is divided by the square root of the key dimension before the softmax so the softmax does not saturate and the gradients do not vanish. Multi-head attention runs several of these in parallel over different learned projections.",
+  "thesisAnchors": [
+   "3.4.1",
+   "2.4.1"
+  ],
+  "evidence": "The core computational primitive underlying every block is scaled dot-product attention over a Query-Key-Value (QKV) representation",
+  "sourceIds": [
+   "vaswani2017"
+  ],
+  "risk": 0.2
+ },
+ {
+  "id": "C-quadratic-cost",
+  "pillar": "A",
+  "title": "The O(L²) cost of self-attention",
+  "story": "Self-attention compares every position with every other, so time and memory grow with the square of the sequence length L. This single fact motivates Informer, Autoformer and PatchTST, and it is why memory, not compute, is the binding constraint on a 6GB card.",
+  "thesisAnchors": [
+   "3.4.1",
+   "1.2"
+  ],
+  "evidence": "O(L²) time and memory cost with respect to sequence length L",
+  "sourceIds": [
+   "vaswani2017"
+  ],
+  "risk": 0.3
+ },
+ {
+  "id": "C-positional-encoding",
+  "pillar": "A",
+  "title": "Positional encoding",
+  "story": "Self-attention has no notion of order, so a Transformer needs position information added to its inputs. Absolute schemes give each position a fixed or learned vector; relative schemes model the pairwise relation between positions directly.",
+  "thesisAnchors": [
+   "3.4.1",
+   "2.4.1"
+  ],
+  "evidence": "since the architecture itself contains no recurrence and would otherwise be blind to sequence order",
+  "sourceIds": [
+   "vaswani2017",
+   "shaw2018relpos",
+   "devlin2019bert",
+   "gehring2017convs2s"
+  ],
+  "risk": 0.1
+ },
+ {
+  "id": "C-transformer-block",
+  "pillar": "A",
+  "title": "Encoder–decoder structure and blocks",
+  "story": "Both encoder and decoder are stacks of identical blocks. An encoder block is multi-head self-attention plus a position-wise feed-forward network, each wrapped in a residual connection and layer normalisation. The decoder adds masked self-attention and cross-attention over the encoder output. In the thesis the final projection gives continuous forecasts directly, not a softmax over words.",
+  "thesisAnchors": [
+   "3.4.1",
+   "2.4.1"
+  ],
+  "evidence": "Each encoder block consists of a multi-head self-attention module followed by a position-wise feed-forward network",
+  "sourceIds": [
+   "vaswani2017",
+   "ba2016layernorm"
+  ],
+  "risk": 0.1
+ },
+ {
+  "id": "C-parallel-vs-sequential",
+  "pillar": "A",
+  "title": "Parallel attention versus sequential recurrence",
+  "story": "Transformers process the whole input at once and relate any two timesteps directly. RNNs step through the sequence, carrying a hidden state forward. That is why Transformers parallelise well but cost O(L²), and why RNNs are cheap in memory (linear in length) but slow to train and hard to parallelise.",
+  "thesisAnchors": [
+   "3.4",
+   "2.3.1"
+  ],
+  "evidence": "Transformers process the entire input sequence in parallel via self-attention",
+  "sourceIds": [
+   "vaswani2017",
+   "pascanu2013difficulty"
+  ],
+  "risk": 0.2
+ },
+ {
+  "id": "C-informer-probsparse",
+  "pillar": "B",
+  "title": "Informer: ProbSparse attention",
+  "story": "Informer observes that self-attention is sparse: only a few query-key pairs matter. A query-sparsity measure picks the dominant queries and attention is computed only for those, cutting the cost from O(L²) to O(L log L).",
+  "thesisAnchors": [
+   "3.4.1",
+   "2.4.2"
+  ],
+  "evidence": "only a few dot-product pairs contribute significantly to the overall attention mechanism",
+  "sourceIds": [
+   "zhou2021informer"
+  ],
+  "risk": 0.2
+ },
+ {
+  "id": "C-informer-distilling",
+  "pillar": "B",
+  "title": "Informer: self-attention distilling",
+  "story": "Between encoder layers, 1-D convolution and max-pooling halve the temporal dimension. This keeps memory manageable across stacked layers. It shrinks the hidden state; it does not change what the attention saw in each layer.",
+  "thesisAnchors": [
+   "3.4.1",
+   "2.4.2"
+  ],
+  "evidence": "The encoder implements Self-Attention Distilling, a process that applies 1D convolutions and max-pooling between attention layers",
+  "sourceIds": [
+   "zhou2021informer"
+  ],
+  "risk": 0.2
+ },
+ {
+  "id": "C-informer-decoder",
+  "pillar": "B",
+  "title": "Informer: generative decoder and label length",
+  "story": "The Informer decoder predicts the whole horizon in one forward pass instead of decoding step by step. In this thesis the Transformer decoders receive the last 48 steps of the lookback as a start token (label length 48).",
+  "thesisAnchors": [
+   "3.4.1",
+   "2.4.2",
+   "3.3"
+  ],
+  "evidence": "a generative-style decoder capable of predicting the entire output sequence in a single forward pass rather than through iterative, step-by-step decoding",
+  "sourceIds": [
+   "zhou2021informer"
+  ],
+  "risk": 0.2
+ },
+ {
+  "id": "C-autoformer-decomposition",
+  "pillar": "B",
+  "title": "Autoformer: series decomposition",
+  "story": "Autoformer builds a decomposition block into the model. It continuously splits hidden states into a trend-cyclical component (long-term progression) and a seasonal component (repeating patterns), instead of treating the series as a flat set of tokens.",
+  "thesisAnchors": [
+   "3.4.1",
+   "2.4.3"
+  ],
+  "evidence": "the Trend-Cyclical component, which captures the long-term progression of the data",
+  "sourceIds": [
+   "wu2021autoformer"
+  ],
+  "risk": 0.2
+ },
+ {
+  "id": "C-autoformer-autocorrelation",
+  "pillar": "B",
+  "title": "Autoformer: auto-correlation",
+  "story": "Autoformer replaces point-wise dot-product attention with an auto-correlation mechanism. It uses the FFT to compute autocorrelation in the frequency domain, finds period-based dependencies, and aggregates similar sub-series across periods, for O(L log L) cost.",
+  "thesisAnchors": [
+   "3.4.1",
+   "2.4.3"
+  ],
+  "evidence": "It utilizes the Fast Fourier Transform (FFT) to calculate autocorrelation in the frequency domain",
+  "sourceIds": [
+   "wu2021autoformer"
+  ],
+  "risk": 0.3
+ },
+ {
+  "id": "C-fedformer",
+  "pillar": "B",
+  "title": "FEDformer (reviewed, not run)",
+  "story": "FEDformer works in the frequency domain: it keeps a compact set of dominant spectral components and uses a mixture-of-experts decomposition. It appears in the literature review for completeness. It was not one of the models empirically evaluated in the thesis.",
+  "thesisAnchors": [
+   "2.4.4",
+   "1.5"
+  ],
+  "evidence": "FEDformer is included in this literature review for architectural completeness, though it was not among the models empirically evaluated in this thesis",
+  "sourceIds": [
+   "zhou2022fedformer"
+  ],
+  "risk": 0.4
+ },
+ {
+  "id": "C-patching",
+  "pillar": "C",
+  "title": "Sub-series patching",
+  "story": "PatchTST cuts each series into patches of P consecutive steps, moved by a stride S, and treats each patch as one token. Attention then runs over N patches instead of L points, and each token carries a local shape (the form of a trend) instead of one noisy reading.",
+  "thesisAnchors": [
+   "3.4.1",
+   "4.2.1",
+   "2.4.5"
+  ],
+  "evidence": "each of which is treated as a single token within the attention mechanism",
+  "sourceIds": [
+   "nie2023patchtst"
+  ],
+  "risk": 0.3,
+  "decisionId": "D-patch-config"
+ },
+ {
+  "id": "C-patch-arith",
+  "pillar": "C",
+  "title": "Patch arithmetic (derivation lab)",
+  "story": "The number of patches is N = floor((L - P) / S) + 1, with no padding. With the lookback L = 96, patch length 16 and stride 8 the model sees 11 tokens, so the attention matrix shrinks from 96² = 9,216 to 11² = 121 entries, about 76 times smaller.",
+  "thesisAnchors": [
+   "4.3",
+   "3.4.1",
+   "4.2.1"
+  ],
+  "evidence": "reducing the effective sequence length from 96 raw timesteps to approximately 11 patches",
+  "sourceIds": [
+   "nie2023patchtst"
+  ],
+  "risk": 0.5,
+  "decisionId": "D-patch-config"
+ },
+ {
+  "id": "C-channel-independence",
+  "pillar": "C",
+  "title": "Channel independence",
+  "story": "PatchTST treats every variable as its own univariate series and pushes each one through the same Transformer backbone with shared weights. One noisy or extreme variable therefore cannot corrupt the embedding of a stable one. The price is that cross-variable information is discarded.",
+  "thesisAnchors": [
+   "4.2.2",
+   "2.4.6"
+  ],
+  "evidence": "PatchTST mitigates this by treating each multivariate feature as an independent channel",
+  "sourceIds": [
+   "nie2023patchtst",
+   "han2024ci"
+  ],
+  "risk": 0.5
+ },
+ {
+  "id": "C-revin",
+  "pillar": "C",
+  "title": "RevIN and layered normalisation",
+  "story": "Reversible Instance Normalisation normalises each input window before the model and reverses the transformation on the output, which addresses distribution shift between windows. In this thesis StandardScaler (fitted on training data only) is applied to all models and RevIN sits inside the PatchTST pipeline.",
+  "thesisAnchors": [
+   "4.2.2",
+   "2.4.6",
+   "3.3"
+  ],
+  "evidence": "a critical component designed to address the non-stationary nature of energy data by handling distribution shifts between training and testing sets",
+  "sourceIds": [
+   "nie2023patchtst",
+   "liu2022nonstationary"
+  ],
+  "risk": 0.5
+ },
+ {
+  "id": "C-flatten-head",
+  "pillar": "C",
+  "title": "Backbone-to-head and single-pass forecasts",
+  "story": "After the TSTiEncoder processes each channel, a flatten head projects the latent representation linearly into the full 24-step forecast in one forward pass. Predicting the whole horizon at once avoids the cascading error of step-by-step rollouts.",
+  "thesisAnchors": [
+   "4.2.2"
+  ],
+  "evidence": "this \"Backbone-to-Head\" flow generates the entire horizon in a single forward pass",
+  "sourceIds": [
+   "nie2023patchtst"
+  ],
+  "risk": 0.3
+ },
+ {
+  "id": "C-counter-designs",
+  "pillar": "C",
+  "title": "Counter-designs to channel independence",
+  "story": "The literature after PatchTST argues over how much cross-variable information to keep. iTransformer makes each variate a token; CARD adds channel-aligned attention; SAMformer blames sharp loss landscapes and adds sharpness-aware minimisation; Pathformer generalises patching to multiple adaptive scales; Crossformer models cross-dimension dependency explicitly.",
+  "thesisAnchors": [
+   "2.4.6"
+  ],
+  "evidence": "iTransformer inverts the conventional Transformer input representation, treating each variate as a token and each time step as a feature",
+  "sourceIds": [
+   "liu2024itransformer",
+   "wang2024card",
+   "ilbert2024samformer",
+   "chen2024pathformer"
+  ],
+  "risk": 0.3
+ },
+ {
+  "id": "C-dlinear",
+  "pillar": "C",
+  "title": "The DLinear counterpoint",
+  "story": "Zeng et al. showed that a considerably simpler linear model can match or exceed several Transformer variants on standard benchmarks. The thesis uses this as the motive for reporting accuracy together with computational cost. No linear model was run as a baseline.",
+  "thesisAnchors": [
+   "2.4.6",
+   "1.1"
+  ],
+  "evidence": "a considerably simpler linear model could match or exceed several Transformer variants",
+  "sourceIds": [
+   "zeng2023dlinear"
+  ],
+  "risk": 0.5
+ },
+ {
+  "id": "C-rnn-gradient",
+  "pillar": "D",
+  "title": "Vanishing and exploding gradients in plain RNNs",
+  "story": "A plain RNN multiplies the same weight matrix again and again through the unrolled sequence, so gradients shrink or blow up over long windows. Gated units (LSTM, GRU) were built to fix this.",
+  "thesisAnchors": [
+   "3.4.2",
+   "1.1"
+  ],
+  "evidence": "A plain RNN of this form is prone to the vanishing and exploding gradient problem when trained via backpropagation through time over long sequences",
+  "sourceIds": [
+   "pascanu2013difficulty"
+  ],
+  "risk": 0.2
+ },
+ {
+  "id": "C-lstm-gates",
+  "pillar": "D",
+  "title": "LSTM gates and bounded activations",
+  "story": "An LSTM has a forget gate, an input gate and an output gate, each a sigmoid layer over the current input and previous hidden state, plus a tanh candidate update. Every gate is bounded to [0, 1] and every content update to [-1, 1], so the contribution of any one input value is mathematically bounded. This property carries the STEEL argument.",
+  "thesisAnchors": [
+   "3.4.2"
+  ],
+  "evidence": "every gate is sigmoid-activated (bounding its output to the range [0, 1])",
+  "sourceIds": [
+   "pascanu2013difficulty",
+   "thesis"
+  ],
+  "risk": 0.7
+ },
+ {
+  "id": "C-bilstm",
+  "pillar": "D",
+  "title": "BiLSTM",
+  "story": "A BiLSTM runs a forward and a backward LSTM over the window and concatenates their hidden states, giving both past and future context inside the input window. The thesis says this costs about double the parameters and training time; the tables confirm the parameters but not the time.",
+  "thesisAnchors": [
+   "3.4.2",
+   "4.4.3",
+   "4.5"
+  ],
+  "evidence": "a Forward Layer processing the sequence from start to end, and a Backward Layer processing it from end to start",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.4
+ },
+ {
+  "id": "C-gru",
+  "pillar": "D",
+  "title": "GRU",
+  "story": "A GRU merges the LSTM's three gates into two (reset and update) and joins the cell and hidden state into one vector. It has fewer parameters, is lighter and often converges faster. In the results it gives the best accuracy-per-parameter among the recurrent models.",
+  "thesisAnchors": [
+   "3.4.2",
+   "4.5"
+  ],
+  "evidence": "The GRU simplifies the LSTM's three-gate structure into two gates — a Reset Gate and an Update Gate",
+  "sourceIds": [
+   "cho2014gru",
+   "thesis"
+  ],
+  "risk": 0.3
+ },
+ {
+  "id": "C-lstm16",
+  "pillar": "D",
+  "title": "LSTM-16 (the minimal configuration)",
+  "story": "LSTM-16 is a deliberately minimal single-layer LSTM with 16 hidden units whose final hidden state is projected straight to the horizon. It sets a lower bound on recurrent capacity: competitive on the seven-feature STEEL data, worst of all seven on the 26-feature Smart Meters data. It appears as \"EfficientLSTM\" in the code logs.",
+  "thesisAnchors": [
+   "3.4.2",
+   "4.5"
+  ],
+  "evidence": "with a hidden dimension of 16 units",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.5
+ },
+ {
+  "id": "C-cnn-hybrids",
+  "pillar": "D",
+  "title": "CNN and hybrid forecasters (literature)",
+  "story": "Temporal convolutional networks use dilated causal convolutions to widen the receptive field with stable gradients and full parallelism. LSTNet combines convolution for local patterns with recurrence for longer memory. Convolutions can decline on irregularly sampled data or very long sequences without hybridisation.",
+  "thesisAnchors": [
+   "2.3.2"
+  ],
+  "evidence": "which use dilated causal convolutions to expand the receptive field",
+  "sourceIds": [
+   "bai2018tcn",
+   "lai2018lstnet"
+  ],
+  "risk": 0.1
+ },
+ {
+  "id": "C-classical",
+  "pillar": "D",
+  "title": "Classical forecasting methods",
+  "story": "ARIMA combines autoregression, differencing and moving averages; SARIMA adds seasonal terms; VAR extends autoregression to several variables; ETS uses weighted averages with trend and seasonal components. They are interpretable baselines but assume linearity and stationarity, and struggle with volatile, high-dimensional, long-horizon data.",
+  "thesisAnchors": [
+   "2.2",
+   "2.2.1",
+   "2.2.2",
+   "2.2.3",
+   "2.2.4"
+  ],
+  "evidence": "autoregression (AR), which models the relationship between an observation and its own past values",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.1
+ },
+ {
+  "id": "C-hardware",
+  "pillar": "E",
+  "title": "The hardware constraint",
+  "story": "Every experiment ran on one ASUS ROG Zephyrus G14 laptop with an NVIDIA RTX 2060 (Max-Q) and 6GB of VRAM, chosen to represent constrained, non-server-class hardware. The 6GB budget forced smaller Transformer dimensions and batch sizes. No VRAM was actually measured.",
+  "thesisAnchors": [
+   "3.1",
+   "1.5"
+  ],
+  "evidence": "a single ASUS ROG Zephyrus G14 (GA401IV) laptop equipped with an NVIDIA GeForce RTX 2060 (Max-Q, 6GB VRAM)",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.8,
+  "decisionId": "D-vram"
+ },
+ {
+  "id": "C-datasets",
+  "pillar": "E",
+  "title": "The four datasets and their roles",
+  "story": "WTH (35,064 hourly rows, 12 variables) calibrates the training budget. ETTh1 (17,420 hourly rows) is the continuous control. STEEL (35,040 rows at 15-minute resolution, 11 variables, 7 retained) is the industrial stress test. Smart Meters in London is the large-scale practical benchmark.",
+  "thesisAnchors": [
+   "3.2",
+   "3.2.1",
+   "3.2.2",
+   "3.2.3",
+   "3.2.4"
+  ],
+  "evidence": "This study utilises four publicly available datasets",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.4
+ },
+ {
+  "id": "C-split-leakage",
+  "pillar": "E",
+  "title": "Chronological split and leakage control",
+  "story": "Data are split 70/20/10 in time order, never shuffled, so the model is always evaluated on data strictly later than anything it trained on. Scaler statistics come from the training partition only and are applied unchanged to validation and test.",
+  "thesisAnchors": [
+   "3.3"
+  ],
+  "evidence": "This chronological, non-shuffled split is essential for time-series evaluation",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.7,
+  "decisionId": "D-london-data"
+ },
+ {
+  "id": "C-window-setup",
+  "pillar": "E",
+  "title": "Lookback, label length and horizon",
+  "story": "Every model and dataset uses a lookback of 96 timesteps, a label length of 48 and a horizon of 24. On hourly data that is 4 days of history predicting the next day. The label length feeds the Transformer decoders; recurrent models and PatchTST use only the lookback. For London the unit is days (see the London concept).",
+  "thesisAnchors": [
+   "3.3",
+   "3.2.2"
+  ],
+  "evidence": "using a Lookback of 96 timesteps, a Label length of 48 timesteps, and a prediction Horizon of 24 timesteps",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.5,
+  "decisionId": "D-london-data"
+ },
+ {
+  "id": "C-features",
+  "pillar": "E",
+  "title": "Preprocessing and feature engineering",
+  "story": "Missing values (under 0.5%) are linearly interpolated, features are Z-score standardised, calendar features become sine–cosine pairs, and for ETTh1, STEEL and Smart Meters lagged values and rolling statistics are added. This expands ETTh1 from 7 columns to 33 input features.",
+  "thesisAnchors": [
+   "3.3",
+   "4.2",
+   "3.2.2"
+  ],
+  "evidence": "expands the native seven-column structure to 33 input features per timestep",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.4
+ },
+ {
+  "id": "C-training-protocol",
+  "pillar": "E",
+  "title": "Training protocol",
+  "story": "Adam throughout. Learning rate 1e-4 for the Transformers and 1e-3 for the recurrent models. Early stopping on validation loss with patience 7 (Transformers) and 5 (recurrent). Batch size 32 for recurrent models; 8 for Transformers on WTH, ETTh1 and STEEL and 16 on Smart Meters. A 10-epoch budget chosen from the WTH calibration. Capacity was reduced per dataset to fit 6GB.",
+  "thesisAnchors": [
+   "3.5.2",
+   "4.3",
+   "3.5.1"
+  ],
+  "evidence": "The Adam optimiser [38] was used throughout",
+  "sourceIds": [
+   "kingma2015adam",
+   "thesis"
+  ],
+  "risk": 0.5,
+  "decisionId": "D-seeds-runs"
+ },
+ {
+  "id": "C-metrics",
+  "pillar": "E",
+  "title": "Metrics and what they hide",
+  "story": "MAE is the average error in original units; MSE squares errors so large misses dominate; RMSE returns to original units. MAPE was computed but is infinite on Smart Meters because of exact zeros in the target, so it is excluded. Operational metrics are training time, parameter count and VRAM (VRAM was not measured).",
+  "thesisAnchors": [
+   "3.6.1",
+   "3.6.2"
+  ],
+  "evidence": "the average magnitude of prediction error in the original units of the target variable",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.5,
+  "decisionId": "D-vram"
+ },
+ {
+  "id": "C-calibration",
+  "pillar": "E",
+  "title": "WTH calibration: 5 versus 10 epochs",
+  "story": "At 5 epochs Informer looked better than Autoformer on summary metrics (MAE 0.51 vs 0.56) but produced flat, mean-reverting predictions. Extending to 10 epochs let the slower Autoformer catch up. This fixed the 10-epoch budget used everywhere else.",
+  "thesisAnchors": [
+   "4.4.1",
+   "3.5.1"
+  ],
+  "evidence": "Informer achieved an MAE of 0.51 and RMSE of 0.69, appearing statistically superior to Autoformer's MAE of 0.56 and RMSE of 0.74",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.5
+ },
+ {
+  "id": "C-single-run",
+  "pillar": "E",
+  "title": "One run per result: how stable is the ranking?",
+  "story": "Each reported figure comes from one run with no random seeds and no significance test (the only seed is the London household split). Small gaps, such as Informer versus Autoformer on ETTh1, may lie within seed variance. The PatchTST paper itself ran 5 seeds and found variance small on large datasets.",
+  "thesisAnchors": [
+   "1.5",
+   "4.4.2"
+  ],
+  "evidence": "PatchTST emerges as the definitive winner across every accuracy metric evaluated",
+  "sourceIds": [
+   "nie2023patchtst"
+  ],
+  "risk": 0.9,
+  "decisionId": "D-seeds-runs"
+ },
+ {
+  "id": "C-london-data",
+  "pillar": "E",
+  "title": "What the London data really is (decided)",
+  "story": "The thesis describes Smart Meters as half-hourly readings, over 3.4 million, with a chronological 70/20/10 split. The author's code shows something different: daily per-household records (one row per household per day, with energy statistics pre-aggregated), split by household, then concatenated. The lookback of 96 is 96 days and the horizon is 24 days. Some windows span two households.",
+  "thesisAnchors": [
+   "3.2.4",
+   "3.3",
+   "4.1"
+  ],
+  "evidence": "The dataset contains half-hourly electricity consumption readings for a sample of London households",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.95,
+  "decisionId": "D-london-data"
+ },
+ {
+  "id": "C-wth-result",
+  "pillar": "F",
+  "title": "Result 1: WTH (Informer wins)",
+  "story": "After 10 epochs and with PatchTST included, Informer has the best MAE, MSE and RMSE of the three Transformers on WTH and is also the fastest to train. PatchTST wins only on MAPE, which is not tabulated. This is the first sign that PatchTST's advantage is dataset-conditional.",
+  "thesisAnchors": [
+   "4.4.1"
+  ],
+  "evidence": "Informer achieves the best MAE, MSE, and RMSE of the three Transformers on WTH",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.5
+ },
+ {
+  "id": "C-etth1-result",
+  "pillar": "F",
+  "title": "Result 2: ETTh1 (PatchTST wins)",
+  "story": "On ETTh1 PatchTST wins every accuracy metric (MAE 0.4689, MSE 0.3742, RMSE 0.6117) and is the only model that tracks the cyclical oil temperature. Informer collapses to a near-horizontal mean prediction despite the lowest raw training loss.",
+  "thesisAnchors": [
+   "4.4.2"
+  ],
+  "evidence": "PatchTST emerges as the definitive winner across every accuracy metric evaluated, achieving an MAE of 0.4689 and MSE of 0.3742",
+  "sourceIds": [
+   "thesis",
+   "nie2023patchtst"
+  ],
+  "risk": 0.7,
+  "decisionId": "D-etth1-percentages"
+ },
+ {
+  "id": "C-steel-result",
+  "pillar": "F",
+  "title": "Result 3: STEEL (two Transformers diverge)",
+  "story": "On STEEL, Informer and Autoformer produced NaN losses from epoch 1 and never recovered. All four recurrent baselines and PatchTST trained normally. PatchTST had the lowest MSE and RMSE of the seven models; GRU was narrowly best on MAE. Only Informer and Autoformer failed: PatchTST did not.",
+  "thesisAnchors": [
+   "4.4.3"
+  ],
+  "evidence": "Informer and Autoformer collapsed to NaN losses from epoch 1 and never recovered",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.95,
+  "decisionId": "D-seeds-runs"
+ },
+ {
+  "id": "C-steel-not-capacity",
+  "pillar": "F",
+  "title": "STEEL: it is not model capacity",
+  "story": "The second run gave every architecture a comparably small capacity (4,456 to 88,327 parameters). The smallest model (LSTM-16, 4,456) succeeds and a larger one (Informer, 87,623) fails, so raw capacity cannot explain the collapse.",
+  "thesisAnchors": [
+   "4.4.3"
+  ],
+  "evidence": "raw model capacity cannot be the explanation for the collapse",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.8
+ },
+ {
+  "id": "C-steel-not-mixing",
+  "pillar": "F",
+  "title": "STEEL: it is not channel-mixing in general",
+  "story": "Every recurrent model feeds all seven STEEL variables jointly into one input vector at each timestep, and none of them fail. So mixing channels is not by itself the cause.",
+  "thesisAnchors": [
+   "4.4.3"
+  ],
+  "evidence": "every recurrent model processes all seven STEEL variables jointly",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.8
+ },
+ {
+  "id": "C-steel-mechanism",
+  "pillar": "F",
+  "title": "STEEL mechanism: bounded versus unbounded",
+  "story": "Recurrent gates are sigmoid-bounded and their updates tanh-bounded, so any single input has a bounded effect. Self-attention and auto-correlation compute raw scores with no bound, so a heavy-tailed value that survives standardisation in one channel can dominate a computation that mixes all channels. PatchTST keeps attention within each channel, so an outlier in one channel cannot inflate attention for another. The thesis treats this as a hypothesis.",
+  "thesisAnchors": [
+   "4.4.3",
+   "4.6.2",
+   "1.5"
+  ],
+  "evidence": "The evidence instead points to a specific, previously under-specified mechanism: a bounded-activation explanation",
+  "sourceIds": [
+   "thesis",
+   "wortsman2023instabilities",
+   "dehghani2023vit22b"
+  ],
+  "risk": 1.0
+ },
+ {
+  "id": "C-steel-superseded",
+  "pillar": "F",
+  "title": "The superseded softmax-overflow account",
+  "story": "An earlier stage of the research blamed softmax exponentiation exceeding the floating-point range. The final thesis supersedes that: modern attention subtracts the row-wise maximum from the logits before exponentiating, so direct softmax overflow is an unlikely primary cause on its own.",
+  "thesisAnchors": [
+   "4.4.3"
+  ],
+  "evidence": "This refined mechanism directly supersedes an earlier, less precise account offered at an initial stage of this research, which attributed the STEEL failure to softmax exponentiation exceeding the floating-point representable range",
+  "sourceIds": [
+   "thesis",
+   "micikevicius2018mixed"
+  ],
+  "risk": 0.9
+ },
+ {
+  "id": "C-steel-diagnostics",
+  "pillar": "F",
+  "title": "How you would confirm the STEEL mechanism",
+  "story": "The thesis lists confirmatory diagnostics as future work: instrument attention-logit magnitudes during early STEEL training and try robust, outlier-resistant scaling for Informer and Autoformer. A crisp diagnostic plan earns more respect than a confident mechanism.",
+  "thesisAnchors": [
+   "5.2"
+  ],
+  "evidence": "directly instrument attention-logit magnitudes during early STEEL training to empirically confirm the bounded-activation mechanism",
+  "sourceIds": [
+   "thesis",
+   "wortsman2023instabilities",
+   "micikevicius2018mixed"
+  ],
+  "risk": 0.9
+ },
+ {
+  "id": "C-smart-meters-result",
+  "pillar": "F",
+  "title": "Result 4: Smart Meters (PatchTST wins everything)",
+  "story": "On the largest, 26-feature dataset PatchTST wins MAE, MSE and RMSE outright (2.5819 / 20.1874 / 4.4930) with the fewest parameters (9,120). It trains in about a third of the Transformer time but 2 to 3 times slower than the recurrent models. LSTM-16 is fastest but least accurate. All models were capped at 3 epochs.",
+  "thesisAnchors": [
+   "4.5"
+  ],
+  "evidence": "PatchTST decisively outperformed all six other models",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.7,
+  "decisionId": "D-london-data"
+ },
+ {
+  "id": "C-dataset-conditional",
+  "pillar": "F",
+  "title": "PatchTST's advantage is dataset-conditional",
+  "story": "PatchTST is the strongest choice on rich, higher-dimensional data (decisively on ETTh1 and Smart Meters). On simpler continuous data (WTH) Informer wins on accuracy. The right summary is not \"PatchTST dominates\".",
+  "thesisAnchors": [
+   "4.6.1"
+  ],
+  "evidence": "PatchTST is the strongest choice on rich, higher-dimensional data where accuracy is the priority",
+  "sourceIds": [
+   "thesis",
+   "nie2023patchtst"
+  ],
+  "risk": 0.6
+ },
+ {
+  "id": "C-frontier",
+  "pillar": "F",
+  "title": "The accuracy–efficiency Pareto frontier",
+  "story": "No single model dominates. PatchTST sits at the accuracy end on feature-rich data and is the most parameter-efficient Transformer everywhere. Informer is faster than the other Transformers on WTH and ETTh1 only. Recurrent models, especially GRU and LSTM-16, sit at the efficiency end.",
+  "thesisAnchors": [
+   "4.6.3",
+   "4.5"
+  ],
+  "evidence": "The full four-dataset comparison delineates a genuine Pareto frontier rather than a single dominant model",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.7,
+  "decisionId": "D-informer-fastest"
+ },
+ {
+  "id": "C-selection-framework",
+  "pillar": "F",
+  "title": "The hardware- and data-aware model-selection framework",
+  "story": "The thesis concludes that no architecture is unconditionally best. PatchTST for accuracy on rich data; Informer for a speed edge among Transformers and on simpler data; recurrent models (especially GRU) where training speed or size dominate; and on industrial data, numerical stability comes first.",
+  "thesisAnchors": [
+   "5.1",
+   "4.6.2"
+  ],
+  "evidence": "This thesis therefore concludes that no single architecture is unconditionally superior for long-term load forecasting",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 0.6
+ },
+ {
+  "id": "C-rqs-gaps",
+  "pillar": "F",
+  "title": "Research questions and gaps",
+  "story": "RQ1: Transformers versus recurrent baselines under a fixed hardware budget. RQ2: robustness on industrial data. RQ3: failures and their mechanisms. RQ4: a hardware- and data-aware selection guidance. The four gaps: hardware-aware selection, data-driven suitability, the accuracy–efficiency trade-off, and failure-mode documentation.",
+  "thesisAnchors": [
+   "1.3",
+   "2.5"
+  ],
+  "evidence": "RQ2. To what extent do Transformer-based models demonstrate robustness and generalization when applied to industrial energy consumption data",
+  "sourceIds": [
+   "thesis",
+   "wen2023survey"
+  ],
+  "risk": 0.5
+ },
+ {
+  "id": "C-limitations",
+  "pillar": "F",
+  "title": "Limitations and future work",
+  "story": "Scope: energy data only, seven models, four public datasets, one 6GB GPU, fixed hyperparameters, and a failure mechanism treated as a hypothesis. Future work: confirmatory diagnostics, edge deployment (pruning, quantisation, distillation), interpretability, other domains, hybrid and federated models, probabilistic and continual forecasting.",
+  "thesisAnchors": [
+   "1.5",
+   "5.2"
+  ],
+  "evidence": "this study exclusively addresses energy consumption data as its use case",
+  "sourceIds": [
+   "thesis",
+   "hinton2015distill",
+   "han2016compression",
+   "jacob2018quant",
+   "mcmahan2017fedavg",
+   "serrano2019attention",
+   "lopezpaz2017gem"
+  ],
+  "risk": 0.5
+ },
+ {
+  "id": "C-motivation",
+  "pillar": "F",
+  "title": "Why long-term load forecasting, and the gap",
+  "story": "Global electricity demand is growing and grids must integrate variable renewables, so accurate long-term load forecasting supports grid stability and planning. Transformers promise long-range modelling but cost O(L²), and benchmark evidence is rarely gathered under realistic hardware limits or on industrial data. That gap is the thesis's central motivation.",
+  "thesisAnchors": [
+   "1.1",
+   "1.1.1"
+  ],
+  "evidence": "This gap between idealized benchmark evaluation and practical deployment realities constitutes the central motivation of this research",
+  "sourceIds": [
+   "thesis",
+   "vaswani2017",
+   "lheureux2022energies",
+   "zeng2023dlinear"
+  ],
+  "risk": 0.2
+ },
+ {
+  "id": "C-register",
+  "pillar": "R",
+  "title": "Vulnerability register",
+  "story": "Places where the thesis disagrees with itself, with its own tables or with the author's code. A committee member who reads closely will find them. Each item is either fixed, decided by the author (the thesis text still has to change) or open (a rehearsed answer is needed). These cards stay at the top of every intensive session.",
+  "thesisAnchors": [
+   "1.5"
+  ],
+  "evidence": "Hyperparameters were held fixed across comparable model categories",
+  "sourceIds": [
+   "thesis"
+  ],
+  "risk": 1.0
+ },
+ {
+  "id": "C-mock-viva",
+  "pillar": "M",
+  "title": "Committee stress tests (mock viva)",
+  "story": "Five hostile questions on whether PatchTST generalises to non-stationary urban data, rewritten against the final thesis. Answer aloud in 90 seconds, then check the model answer and the follow-up.",
+  "thesisAnchors": [
+   "4.6.1"
+  ],
+  "evidence": "PatchTST is the strongest choice on rich, higher-dimensional data where accuracy is the priority",
+  "sourceIds": [
+   "thesis",
+   "nie2023patchtst",
+   "han2024ci",
+   "zeng2023dlinear"
+  ],
+  "risk": 1.0
+ }
+]
