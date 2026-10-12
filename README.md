@@ -30,3 +30,4 @@ Content lives in `content/*.json` and is checked against the final thesis.
 ## Not built yet
 The 45-minute session structure with warm-up and review, and the AI examiner (phase 4).
 # Thesis_Preparation-App
+# Thesis_Preparation-App
